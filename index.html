@@ -760,6 +760,7 @@ function referenceMarkup(markup){
 
 const slides=DECK.slides,stage=document.getElementById('stage');
 let current=0,stageChoice=0,scenarioChoice=0,filter='همه';
+const readingPositions=new Map();
 const fa=n=>n.toLocaleString('fa-IR');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const groupDescriptions={
@@ -818,9 +819,14 @@ function resize(){
  const main=document.getElementById('main');const scale=document.body.classList.contains('export-mode')?1:Math.min((main.clientWidth-60)/1600,(main.clientHeight-36)/900);
  box.style.width=(1600*scale)+'px';box.style.height=(900*scale)+'px';stage.style.transform='scale('+scale+')';
 }
-function renderSlide(index,updateHash=true){
- const entering=Number(index)!==current||!stage.firstElementChild;
- current=Math.max(0,Math.min(slides.length-1,Number(index)||0));const slide=slides[current];
+function renderSlide(index,updateHash=true,refresh=false){
+ const value=Number(index);
+ const next=Number.isFinite(value)?Math.max(0,Math.min(slides.length-1,Math.trunc(value))):0;
+ const hadSlide=Boolean(stage.firstElementChild),entering=next!==current||!hadSlide;
+ if(!entering&&!refresh)return;
+ const oldPassage=stage.querySelector('.hook-card p');
+ if(oldPassage&&readingPositions.has(current))readingPositions.get(current).scroll=oldPassage.scrollTop;
+ current=next;const slide=slides[current];
  stage.className='slide '+(slide.type==='cover'?'cover':'')+(entering?' slide-enter':'')+(slide.visual&&slide.visual!=='james-fowler-emory'?' immersive-slide':'');stage.innerHTML=referenceMarkup(renderHTML(slide,current,document.body.classList.contains('export-mode')));
  if(stage.classList.contains('immersive-slide')){
   const toggle = document.createElement('button');
@@ -854,19 +860,23 @@ function renderSlide(index,updateHash=true){
    meter.max = parts.length;
    meter.setAttribute('aria-label', 'پیشرفت متن این اسلاید');
    passage.setAttribute('aria-live', 'polite');
-   let step = 0;
+   const position=readingPositions.get(current)||{step:0,scroll:0};
+   let step=Math.min(position.step,parts.length-1);
+   readingPositions.set(current,position);
+   passage.tabIndex=0;
    function showStep() {
     back.disabled = step === 0;
     meter.value = step + 1;
     status.textContent = fa(step + 1) + ' / ' + fa(parts.length);
     advance.textContent = step === parts.length - 1 ? 'بازگشت به پرسش' : 'ادامهٔ متن';
    }
-   function nextPassage(delta = 1) {
+   function nextPassage(delta = 1,animate = true) {
     step = (step + delta + parts.length) % parts.length;
+    position.step=step;
     passage.innerHTML = step ? referenceMarkup(parts[step]) : esc(parts[step]);
     hook.classList.toggle('story-reading', step > 0);
     passage.scrollTop = 0;
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (animate&&!document.body.classList.contains('motion-off')&&!matchMedia('(prefers-reduced-motion: reduce)').matches) {
      passage.getAnimations().forEach(animation => animation.cancel());
      passage.animate([{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'translateY(0)'}], {duration:320, easing:'ease-out'});
     }
@@ -878,7 +888,8 @@ function renderSlide(index,updateHash=true){
     if (!event.target.closest('button,a') && !String(getSelection())) nextPassage();
    };
    hook.append(advance, back, status, meter);
-   showStep();
+   nextPassage(0,false);
+   passage.scrollTop=position.scroll;
   }
  }
  stage.setAttribute('aria-label',fa(current+1)+' از '+fa(slides.length)+'، '+slide.title);
@@ -886,24 +897,25 @@ function renderSlide(index,updateHash=true){
  document.getElementById('chapter').textContent=slide.group;
  document.getElementById('progress').style.width=100*(current+1)/slides.length+'%';
  document.getElementById('previous').disabled=current===0;document.getElementById('next').disabled=current===slides.length-1;
- if(updateHash)history.replaceState(null,'','#slide='+(current+1));
+ if(updateHash&&entering)history.pushState(null,'','#slide='+(current+1));
  resize();window.__currentSlide=current;
- window.dispatchEvent(new CustomEvent('deck:slide',{detail:{index:current,slide}}));
+ window.dispatchEvent(new CustomEvent('deck:slide',{detail:{index:current,slide,entering}}));
+ if(entering&&hadSlide&&innerWidth<=700)stage.scrollIntoView({block:'start',behavior:'instant'});
 }
 window.renderSlide=renderSlide;window.__slideCount=slides.length;
-function move(delta){if(window.advanceFragment?.(delta))return;renderSlide(current+delta)}
+function move(delta){if(document.querySelector('dialog[open]')||document.body.classList.contains('intro-on'))return;if(window.advanceFragment?.(delta))return;renderSlide(current+delta)}
 document.getElementById('next').onclick=()=>move(1);document.getElementById('previous').onclick=()=>move(-1);
 stage.addEventListener('click',e=>{
  const term=e.target.closest('[data-term]');if(term){showTerm(term.dataset.term);return}
  const ref=e.target.closest('[data-ref]');if(ref){showSource(ref.dataset.ref);return}
  const notes=e.target.closest('[data-notes]');if(notes){showSlideNotes(Number(notes.dataset.notes));return}
  const img=e.target.closest('[data-image]');if(img){document.getElementById('lightbox-image').src=img.dataset.image;document.getElementById('lightbox-image').alt=img.querySelector('img').alt;document.getElementById('lightbox-caption').textContent=img.querySelector('img').alt;openDialog('lightbox');return}
- const st=e.target.closest('[data-stage]');if(st){stageChoice=Number(st.dataset.stage);renderSlide(current,false);document.getElementById('stage-tab-'+stageChoice).focus();return}
- const sc=e.target.closest('[data-scenario]');if(sc){scenarioChoice=Number(sc.dataset.scenario);renderSlide(current,false);stage.querySelector('[data-scenario="'+scenarioChoice+'"]').focus();return}
+ const st=e.target.closest('[data-stage]');if(st){stageChoice=Number(st.dataset.stage);renderSlide(current,false,true);document.getElementById('stage-tab-'+stageChoice).focus();return}
+ const sc=e.target.closest('[data-scenario]');if(sc){scenarioChoice=Number(sc.dataset.scenario);renderSlide(current,false,true);stage.querySelector('[data-scenario="'+scenarioChoice+'"]').focus();return}
  const g=e.target.closest('[data-group]');if(g){renderSlide(slides.findIndex(s=>s.group===g.dataset.group));return}
  const r=e.target.closest('[data-response]');if(r){stage.querySelectorAll('[data-response]').forEach(x=>x.setAttribute('aria-pressed',String(x===r)));const box=document.getElementById('discussion-result');box.hidden=false;box.textContent=['چه شاهد مستقلی نشان می‌دهد کیفیت متن با توان فهم دانشجو همراه است؟','برای بحث: توضیح با زبان خود فرد و انتقال به مسئله‌ای تازه چه شواهدی فراهم می‌کنند؟','برای بحث: راهنمایی مرحله‌ای، پاسخ آماده و ابزار دسترس‌پذیری چه تفاوت‌هایی دارند؟'][Number(r.dataset.response)];resize()}
 });
-stage.addEventListener('keydown',e=>{const tab=e.target.closest('[data-stage]');if(!tab)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();e.stopPropagation();stageChoice=e.key==='Home'?0:e.key==='End'?6:(stageChoice+(e.key==='ArrowLeft'?1:6))%7;renderSlide(current,false);document.getElementById('stage-tab-'+stageChoice).focus()}});
+stage.addEventListener('keydown',e=>{const tab=e.target.closest('[data-stage]');if(!tab)return;if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();e.stopPropagation();stageChoice=e.key==='Home'?0:e.key==='End'?6:(stageChoice+(e.key==='ArrowLeft'?1:6))%7;renderSlide(current,false,true);document.getElementById('stage-tab-'+stageChoice).focus()}});
 function openDialog(id){document.getElementById(id).showModal()}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}}));
@@ -920,15 +932,16 @@ async function fullScreen(){try{if(document.fullscreenElement)await document.exi
 document.getElementById('fullscreen-button').onclick=fullScreen;
 document.getElementById('print-button').onclick=()=>{document.getElementById('print-deck').innerHTML=slides.map((s,i)=>'<section class="slide '+(s.type==='cover'?'cover':'')+'">'+renderHTML(s,i,true)+'</section>').join('');window.print()};
 function toast(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
-document.addEventListener('keydown',e=>{if(e.defaultPrevented||document.querySelector('dialog[open]')||e.target.closest('input,textarea,[role=tab]')||(e.key===' '&&e.target.closest('button,a')))return;if(['ArrowLeft','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();move(1)}else if(['ArrowRight','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();move(-1)}else if(e.key==='Home'){e.preventDefault();renderSlide(0)}else if(e.key==='End'){e.preventDefault();renderSlide(slides.length-1)}else if(e.key.toLowerCase()==='f')fullScreen();else if(e.key.toLowerCase()==='g'){renderOverview();openDialog('overview')}});
+document.addEventListener('keydown',e=>{if(e.defaultPrevented||e.repeat||e.isComposing||e.ctrlKey||e.metaKey||e.altKey||document.body.classList.contains('intro-on')||document.querySelector('dialog[open]')||e.target.closest('input,textarea,select,[contenteditable],[role=tab]')||(e.key===' '&&e.target.closest('button,a,summary'))||(e.target.closest('.hook-card p,.table-wrap')&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(e.key)))return;if(['ArrowLeft','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();move(1)}else if(['ArrowRight','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();move(-1)}else if(e.key==='Home'){e.preventDefault();renderSlide(0)}else if(e.key==='End'){e.preventDefault();renderSlide(slides.length-1)}else if(e.key.toLowerCase()==='f')fullScreen();else if(e.key.toLowerCase()==='g'){renderOverview();openDialog('overview')}});
 let touchStart = null;
 stage.addEventListener('touchstart', event => {
  touchStart = null;
- if (event.touches.length !== 1 || event.target.closest('button,a,input,select,textarea,summary')) return;
+ if (event.touches.length !== 1 || document.body.classList.contains('intro-on') || document.querySelector('dialog[open]') || event.target.closest('button,a,input,select,textarea,summary,[contenteditable],.sprop,.hook-card p,.table-wrap')) return;
  const touch = event.changedTouches[0];
  touchStart = {id: touch.identifier, x: touch.clientX, y: touch.clientY};
 }, {passive:true});
 stage.addEventListener('touchcancel', () => { touchStart = null; }, {passive:true});
+stage.addEventListener('touchmove',event=>{if(event.touches.length!==1)touchStart=null;},{passive:true});
 stage.addEventListener('touchend', event => {
  const start = touchStart;
  touchStart = null;
@@ -1299,7 +1312,7 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  }
  function step(){
   if(!on)return;
-  if(document.querySelector('dialog[open]')||document.hidden){schedule(2000);return}
+  if(document.querySelector('dialog[open]')||document.body.classList.contains('intro-on')||document.hidden){schedule(2000);return}
   const st=document.getElementById('stage');
   const adv=st.querySelector('.story-advance:not(.story-back)');
   if(adv&&adv.textContent.trim()!=='بازگشت به پرسش'){adv.click();schedule(dwell(6));return}
@@ -1318,7 +1331,7 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  btn.addEventListener('click',()=>on?stop():start());
  document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea'))return;if(e.key.toLowerCase()==='p'&&!e.ctrlKey&&!e.metaKey&&!document.querySelector('dialog[open]'))on?stop():start();else if(on&&e.key==='Escape')stop()});
  document.querySelector('.navigation')?.addEventListener('click',()=>{if(on){sub=0;schedule(dwell(5.5))}});
- window.addEventListener('deck:slide',()=>{sub=0});
+ window.addEventListener('deck:slide',e=>{if(e.detail.entering){sub=0;if(on)schedule(dwell(5.5))}});
 })();
 
 /* ---------- opening book animation ---------- */
@@ -1378,7 +1391,7 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  const burst=(x,y,n)=>window.deckBurst&&window.deckBurst(x,y,n);
  const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
  const fa=n=>n.toLocaleString('fa-IR');
- const scale=()=>stage.getBoundingClientRect().width/1600;
+ const scale=()=>stage.getBoundingClientRect().width/stage.offsetWidth;
  let ptr={x:innerWidth/2,y:innerHeight/2};
  addEventListener('pointermove',e=>{ptr.x=e.clientX;ptr.y=e.clientY},{passive:true});
  function prop(src,cls,hint){
@@ -1395,8 +1408,11 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  function compass(mode){
   const w=prop('k1.webp','sc-compass '+mode,mode==='matrix'?'قطب‌نما سمت انتخاب شما را نشان می‌دهد':'قطب‌نما را بچرخانید');
   const img=w.querySelector('img');let hover=null;
-  stage.addEventListener('pointerover',e=>{hover=e.target.closest('.scenario')||hover},{passive:true});
-  stage.addEventListener('pointerout',e=>{if(e.target.closest('.scenario'))hover=null},{passive:true});
+  const over=e=>{hover=e.target.closest('.scenario')||hover};
+  const out=e=>{if(e.target.closest('.scenario'))hover=null};
+  stage.addEventListener('pointerover',over,{passive:true});
+  stage.addEventListener('pointerout',out,{passive:true});
+  loops.push(()=>{stage.removeEventListener('pointerover',over);stage.removeEventListener('pointerout',out)});
   w.addEventListener('click',()=>{compassState.v+=48;burst(w.getBoundingClientRect().left+60,w.getBoundingClientRect().top+60,14);say(w,['راه را خودت پیدا می‌کنی؟','کدام سمت؟','قطب‌نما فقط راهنماست.'][Math.floor(Math.random()*3)])});
   loop(()=>{
    const r=w.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52;
@@ -1415,15 +1431,20 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
   const defs=[['استدلال',''],['تعلق','hue-rotate(205deg) saturate(1.25)'],['نماد و تجربه','hue-rotate(235deg) brightness(1.18) saturate(1.1)']];
   let done=0;
   const hint=el('div','pz-hint','قطعه‌ها را روی کارت مناسب بکشید ✦');stage.append(hint);
+  const mobile=innerWidth<=700;
+  const tray=mobile?el('div','puzzle-tray'):null;if(tray)stage.append(tray);
   const sr=stage.getBoundingClientRect(),ss=scale(),note=stage.querySelector('.concept-note'),foot=stage.querySelector('.slide-foot');
   const gapTop=note?(note.getBoundingClientRect().bottom-sr.top)/ss:700,gapBot=foot?(foot.getBoundingClientRect().top-sr.top)/ss:830;
-  const rowY=Math.max(gapTop+4,Math.min(gapBot-84,(gapTop+gapBot)/2-38));hint.style.top=(rowY+22)+'px';
+  const rowY=tray?(tray.getBoundingClientRect().top-sr.top)/ss:Math.max(gapTop+4,Math.min(gapBot-84,(gapTop+gapBot)/2-38));if(!mobile)hint.style.top=(rowY+22)+'px';
   defs.forEach(([label,filter],i)=>{
    const w=el('div','sprop sc-puzzle');const im=new Image();im.src=P+'k2.webp';im.alt='';im.draggable=false;im.style.filter=filter+' drop-shadow(0 16px 14px #0f3a3166)';w.append(im,el('span','pz-l',label));
-   const home={x:140+i*190,y:rowY};w.style.left=home.x+'px';w.style.top=home.y+'px';w.style.setProperty('--i',i);stage.append(w);
+   const home={x:mobile?20+i*(stage.clientWidth-40)/3:140+i*190,y:rowY};w.style.left=home.x+'px';w.style.top=home.y+'px';w.style.setProperty('--i',i);stage.append(w);
    let drag=null;
    w.addEventListener('pointerdown',e=>{if(w.classList.contains('placed'))return;w.setPointerCapture(e.pointerId);const s=scale(),r=stage.getBoundingClientRect();drag={dx:(e.clientX-r.left)/s-parseFloat(w.style.left),dy:(e.clientY-r.top)/s-parseFloat(w.style.top)};w.classList.add('dragging');w.style.transition='none'});
    w.addEventListener('pointermove',e=>{if(!drag)return;const s=scale(),r=stage.getBoundingClientRect();w.style.left=((e.clientX-r.left)/s-drag.dx)+'px';w.style.top=((e.clientY-r.top)/s-drag.dy)+'px'});
+   const cancelDrag=()=>{if(!drag)return;drag=null;w.classList.remove('dragging');w.style.transition='';w.style.left=home.x+'px';w.style.top=home.y+'px'};
+   w.addEventListener('pointercancel',cancelDrag);
+   w.addEventListener('lostpointercapture',cancelDrag);
    w.addEventListener('pointerup',e=>{
     if(!drag)return;drag=null;w.classList.remove('dragging');w.style.transition='';
     const target=cards.find(c=>c.querySelector('strong')?.textContent.includes(label));
@@ -1482,26 +1503,48 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
   else if([1,13,15].includes(index))compass('free');
   if([11,17].includes(index))sprout();
   if([3,22].includes(index))book();
-  if(index===n-1)setTimeout(confetti,1200);
+  if(index===n-1){const pending=setTimeout(confetti,1200);loops.push(()=>clearTimeout(pending))}
  }
  addEventListener('deck:slide',e=>mount(e.detail.index));
  if(typeof window.__currentSlide==='number')mount(window.__currentSlide);
 
  /* ---------- global: sparkle trail, slide tilt, magnetic buttons ---------- */
  const main=document.getElementById('main'),vp=document.querySelector('.deck-viewport');
- if(main&&vp&&!coarse){
+ if(main&&vp&&!coarse&&innerWidth>700){
   main.style.perspective='1800px';vp.style.transition='transform .5s cubic-bezier(.2,.8,.2,1)';vp.style.willChange='transform';
   let lt=0;
   addEventListener('pointermove',e=>{
-   if(!motionOn())return;
+   if(!motionOn()||innerWidth<=700){vp.style.transform='';return}
    const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
    vp.style.transform='rotateY('+(x*-2.2).toFixed(2)+'deg) rotateX('+(y*1.6).toFixed(2)+'deg)';
    const now=performance.now();if(now-lt>45){lt=now;window.deckTrail&&window.deckTrail(e.clientX,e.clientY)}
-   document.querySelectorAll('.navigation button,.top-actions button').forEach(b=>{
+   document.querySelectorAll('.top-actions button').forEach(b=>{
     const r=b.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy);
     if(d<90){b.style.translate=(dx*.18).toFixed(1)+'px '+(dy*.22).toFixed(1)+'px'}else if(b.style.translate)b.style.translate=''
    });
   },{passive:true});
   addEventListener('pointerleave',()=>{vp.style.transform=''});
  }
-})();</script></body></html>
+})();</script><style>
+/* Keep slide controls within reach on long mobile slides. */
+@media(max-width:700px){
+ body:not(.export-mode) .deck-viewport{transform:none!important;will-change:auto!important}
+ body:not(.export-mode) #main{perspective:none!important;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+ body:not(.export-mode) .deck-viewport>.navigation{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px)}
+ body:not(.export-mode) #stage .hook-card{padding:20px}
+ body:not(.export-mode) #stage .hook-card p{font-size:22px;line-height:1.9!important}
+ body:not(.export-mode) #stage .hook-card.story-reading p{font-size:18px;max-height:360px}
+ body:not(.export-mode) #stage .story-advance{font-size:15px;padding:9px 12px}
+ body:not(.export-mode) #stage .story-status{font-size:14px;margin-inline-start:8px}
+ body:not(.export-mode) #stage .char-float{position:relative;inset:auto;height:190px;width:100%;margin:24px auto}
+ body:not(.export-mode) #stage.char-slide .char-panel .image-button{height:260px}
+ body:not(.export-mode) #stage .sprop:not(.sc-puzzle){position:relative;inset:auto;width:170px;margin:30px auto 60px;flex:none}
+ body:not(.export-mode) #stage .react-bar{position:relative;inset:auto;max-width:100%;width:max-content;margin:20px auto;flex-wrap:wrap}
+ body:not(.export-mode) #stage .pz-hint{position:relative;inset:auto;right:auto;margin:24px 0;white-space:normal;text-align:center}
+ body:not(.export-mode) #stage .puzzle-tray{height:130px;flex:none}
+ body:not(.export-mode) #stage .sc-puzzle{width:88px!important}
+ body:not(.export-mode) #stage .sc-puzzle.placed{width:76px!important}
+ body:not(.export-mode) #stage .pz-l{font-size:12px!important}
+}
+</style></body></html>
+
