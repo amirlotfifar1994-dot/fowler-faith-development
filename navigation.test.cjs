@@ -18,7 +18,7 @@ function navigation() {
     stage, slides: Array.from({ length: 23 }, (_, i) => ({ title: `slide ${i}`, blocks: [] })),
     current: 0, readingPositions: new Map(), renders: 0,
     renderHTML() { context.renders++; return 'content'; }, referenceMarkup: x => x,
-    fa: String, resize() {}, innerWidth: 1280, modal: false, intro: false,
+    fa: String, resize() {}, isCompact:()=>false, deckAssets: {hydrate() {},prepare() {}}, innerWidth: 1280, modal: false, intro: false,
     document: {
       addEventListener(name, callback) { callbacks[name] = callback; },
       body: { classList: { contains: name => name === 'intro-on' && context.intro } },
@@ -94,7 +94,7 @@ test('horizontal swipes navigate once while vertical scroll and pinch do not', (
   context.renderSlide(3, false);
   const start = () => callbacks.touchstart({ touches: [{}], changedTouches: [{ identifier: 1, clientX: 200, clientY: 100 }], target: { closest: () => null } });
   start();
-  callbacks.touchend({ touches: [], changedTouches: [{ identifier: 1, clientX: 50, clientY: 100 }] });
+  callbacks.touchend({ touches: [], changedTouches: [{ identifier: 1, clientX: 350, clientY: 100 }] });
   assert.equal(context.current, 4);
   start();
   callbacks.touchend({ touches: [], changedTouches: [{ identifier: 1, clientX: 150, clientY: 300 }] });
@@ -119,4 +119,12 @@ test('keyboard shortcuts respect reading focus, editing, modifiers and repeated 
   assert.equal(context.current, 3);
   key({});
   assert.equal(context.current, 4);
+});
+
+test('right arrow advances and left arrow returns to the previous slide', () => {
+  const { context, callbacks } = navigation();
+  context.renderSlide(3, false);
+  const key = name => callbacks.keydown({key:name,preventDefault(){},target:{closest:()=>null}});
+  key('ArrowRight');assert.equal(context.current,4);
+  key('ArrowLeft');assert.equal(context.current,3);
 });

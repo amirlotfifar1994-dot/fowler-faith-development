@@ -1,0 +1,139 @@
+/* Calm motion, clear stacking, and layouts that adapt to the content. */
+body::before,body::after{animation:none!important;filter:none!important;opacity:.16}
+#stage *,#stage::before,#stage::after,#stage *::before,#stage *::after{animation:none!important;will-change:auto!important}
+#stage .fx-card,#stage .fx-card:hover,#stage .visual-panel:hover img,#stage .char img,#stage .char-img{transform:none;translate:none!important}
+#stage .hook-card::before,#stage .char-panel::before,#stage .char-panel::after,#stage .char-float::after{display:none}
+#stage .text-card,#stage .cover-tag,.navigation,.in-skip{backdrop-filter:none!important}
+#stage .char,#stage .char-panel,#stage .discussion-art{z-index:6}
+#stage .char img,#stage .char-img{filter:drop-shadow(0 9px 10px #0f3a312b)}
+#stage .char-panel{overflow:visible!important;position:relative}
+#stage .media-layout{overflow:visible}
+#stage .sprop{z-index:5}
+#stage .sprop img{filter:drop-shadow(0 8px 8px #0f3a3124)}
+#stage .sc-compass img{transition:transform .3s ease-out}
+#stage .asset-pending{opacity:0}
+#stage .asset-ready{opacity:1;transition:opacity .2s ease-out}
+#stage.cover .art{background-image:none;opacity:.55;transform:none}
+#stage.cover .art.cover-art-ready{background-image:url('meaning-cover.webp')}
+#stage.slide-enter>.slide-top,#stage.slide-enter>h2,#stage.slide-enter>.cover-copy{animation:calmEnter .32s ease-out both!important}
+@keyframes calmEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#stage .char img.jump{animation:calmNod .35s ease-out!important}
+#stage .sc-sprout img.wig{animation:wig .65s ease-out!important}
+#stage .sprop .drop{animation:drop .9s ease-in forwards!important}
+#stage .sprop .word{animation:wordUp 1.8s ease-out forwards!important}
+#stage .sc-puzzle.placed{animation:pzPlace .4s ease-out!important}
+#stage .sc-puzzle.shake{animation:shake .35s ease-out!important}
+#stage .bubble{animation:calmEnter .2s ease-out both!important}
+#stage .image-button:has(.asset-pending){background:#dce5d955}
+@keyframes calmNod{50%{transform:translateY(-6px)}}
+.fx-ring{animation:ring .45s ease-out forwards;border-width:1px}
+.course-credits{display:flex;flex-wrap:wrap;gap:10px 30px;margin-top:22px;font-size:21px;line-height:1.9;color:#f1e6ce}
+.course-credits span{display:block}
+#stage .cover-copy{z-index:7}
+#stage .discussion-art{position:absolute;left:80px;bottom:78px;margin:0;width:250px;pointer-events:none}
+#stage .discussion-art img{display:block;width:100%;height:auto;object-fit:contain}
+#stage .discussion-result{margin-left:280px}
+.presentation-menu{position:fixed;top:14px;left:16px;z-index:30;border:1px solid #e8c27a66;border-radius:50px;background:#123d35ed;color:#fff9ec;font-size:12px;padding:8px 14px;box-shadow:0 3px 12px #0002}
+.presentation-menu:hover{background:#1e5648}
+#quick-menu{width:min(440px,92vw)}
+.quick-actions{display:grid;gap:10px;padding:10px 0}
+.quick-actions button{min-height:46px;background:#f4eddb;border-color:#dfcfaa;text-align:right}
+.deck-viewport>.navigation{z-index:25}
+.navigation button{translate:none!important;transition:background .18s,box-shadow .18s!important}
+.navigation button:hover:not(:disabled){transform:none!important}
+.navigation #counter{min-width:56px;text-align:center}
+.navigation #next::after{content:' →'!important}
+.navigation #previous::before{content:'← '!important}
+
+/* The original opening book stays; only its ambient movement is removed. */
+#intro .book,#intro .cv-in .star,#intro .in-glow{animation:none}
+#intro{cursor:default;transition:opacity .45s,visibility .45s}
+#intro .bk-scene{top:-30px}
+#intro .bk-scene.zoom{transform:scale(calc(var(--k,1)*1.12));opacity:0}
+#intro .bk-wrap{transition:transform 1.5s cubic-bezier(.4,0,.2,1),opacity .6s}
+#intro .leaf{transition-duration:1.45s}
+#intro .in-char{display:none}
+#intro .pg-in{gap:10px}
+#intro .intro-person{font-size:19px;line-height:1.6;margin:4px 0}
+#intro .intro-person strong{font-size:24px}
+#intro .intro-caption{position:absolute;bottom:94px;inset-inline:20px;display:flex;align-items:center;justify-content:center;gap:9px 24px;flex-wrap:wrap;text-align:center;color:#f8efd9;font-size:16px;line-height:1.8}
+#intro .intro-caption strong{color:#ebcc91;font-size:20px}
+#intro .cv-in span{max-width:245px;text-align:center;line-height:1.8;font-size:19px}
+#intro .in-skip{bottom:30px;min-height:44px;font-size:15px}
+
+@media(max-width:1000px) and (min-width:701px){.presentation-menu{top:6px;left:8px;font-size:11px;padding:5px 10px}}
+@media(max-width:700px),(max-width:1000px) and (orientation:portrait){
+ html,body{overflow-x:clip;max-width:100%}
+ body:not(.export-mode) #main{height:auto!important;min-height:100svh;display:block;padding:44px 10px calc(86px + env(safe-area-inset-bottom));perspective:none!important}
+ body:not(.export-mode) .deck-viewport{width:100%!important;height:auto!important;transform:none!important;will-change:auto!important}
+ body:not(.export-mode) #stage{position:relative;inset:auto;width:100%;height:auto;min-height:calc(100svh - 140px);padding:24px 18px;border-radius:22px;transform:none!important;overflow:hidden;gap:0}
+ body:not(.export-mode) #stage .slide-top{font-size:11px;min-height:20px;gap:10px}
+ body:not(.export-mode) #stage .section-label{gap:5px}
+ body:not(.export-mode) #stage .section-label{white-space:nowrap;min-width:0}
+ body:not(.export-mode) #stage .section-cutout{display:none}
+ body:not(.export-mode) #stage .slide-number{flex:none;white-space:nowrap;min-width:48px}
+ body:not(.export-mode) #stage h2,body:not(.export-mode) #stage .long-title{font-size:24px;line-height:1.7;margin:16px 0 20px;max-width:100%;text-wrap:pretty}
+ body:not(.export-mode) #stage h1{font-size:52px;line-height:1.5;letter-spacing:0}
+ body:not(.export-mode) #stage.cover{padding:28px 22px}
+ body:not(.export-mode) #stage .cover-copy{margin-top:24px;max-width:100%}
+ body:not(.export-mode) #stage .cover-hook{font-size:22px;line-height:1.8;margin:8px 0}
+ body:not(.export-mode) #stage .subtitle{font-size:19px;line-height:1.9}
+ body:not(.export-mode) #stage .cover-tag{margin-top:16px;font-size:13px;line-height:1.8;padding:8px 14px}
+ body:not(.export-mode) #stage .course-credits{display:grid;gap:6px;margin-top:18px;font-size:16px}
+ body:not(.export-mode) #stage.cover .char.char-cover{position:relative!important;inset:auto!important;width:100%;height:220px;margin:24px auto 0;flex:none}
+ body:not(.export-mode) #stage .media-layout{display:flex;flex-direction:column;gap:24px;min-width:0}
+ body:not(.export-mode) #stage .media-layout .hook-card{order:0}
+ body:not(.export-mode) #stage .visual-panel{order:1;margin:0;min-width:0;width:100%}
+ body:not(.export-mode) #stage .visual-panel.char-panel .image-button{height:235px;width:100%}
+ body:not(.export-mode) #stage .visual-panel.portrait .image-button{height:300px}
+ body:not(.export-mode) #stage .hook-card{padding:20px;min-height:0!important;border-radius:20px!important;max-width:100%;flex:none}
+ body:not(.export-mode) #stage .hook-card p{font-size:21px;line-height:1.9!important;text-wrap:pretty;margin:0;max-width:100%}
+ body:not(.export-mode) #stage .hook-card.story-reading p{font-size:17px;max-height:min(48svh,380px);overflow-y:auto;overscroll-behavior:contain;padding-inline-end:3px}
+ body:not(.export-mode) #stage .story-advance{font-size:14px;padding:8px 11px;min-height:44px;white-space:normal}
+ body:not(.export-mode) #stage .story-back{margin-inline-start:5px}
+ body:not(.export-mode) #stage .story-status{font-size:13px;margin-inline-start:8px;white-space:nowrap}
+ body:not(.export-mode) #stage .story-meter{margin-top:16px}
+ body:not(.export-mode) #stage .body-grid,body:not(.export-mode) #stage .concept-grid,body:not(.export-mode) #stage .matrix-wrap{display:grid;grid-template-columns:1fr;gap:16px}
+ body:not(.export-mode) #stage .text-card,body:not(.export-mode) #stage .concept-card{min-width:0;min-height:0;padding:20px;font-size:17px;line-height:2}
+ body:not(.export-mode) #stage .concept-card strong{font-size:22px}
+ body:not(.export-mode) #stage .concept-card p{font-size:17px;line-height:2}
+ body:not(.export-mode) #stage .interactive-hook{font-size:18px;line-height:1.9}
+ body:not(.export-mode) #stage .discussion-box{font-size:19px;line-height:2;padding:22px}
+ body:not(.export-mode) #stage .discussion-actions{display:grid;grid-template-columns:1fr;gap:10px}
+ body:not(.export-mode) #stage .discussion-actions button{font-size:15px;padding:12px;min-height:46px}
+ body:not(.export-mode) #stage .slide-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;font-size:11px;line-height:1.8;padding-top:16px;margin-top:24px}
+ body:not(.export-mode) #stage .slide-foot span:last-child{width:100%;max-width:100%;font-size:10px}
+ body:not(.export-mode) #stage .notes-button{font-size:12px;min-height:40px}
+ body:not(.export-mode) #stage .char-float{position:relative;inset:auto!important;height:190px!important;width:100%!important;margin:24px auto;flex:none}
+ body:not(.export-mode) #stage .char img{max-width:100%;max-height:100%}
+ body:not(.export-mode) #stage .sprop:not(.sc-puzzle){position:relative;inset:auto!important;width:145px!important;margin:24px auto 48px;flex:none}
+ body:not(.export-mode) #stage .sc-hint{font-size:12px;max-width:280px;white-space:normal;text-align:center;width:max-content}
+ body:not(.export-mode) #stage .discussion-art{position:relative;inset:auto;width:190px;margin:24px auto 0}
+ body:not(.export-mode) #stage .discussion-result{margin-left:0}
+ body:not(.export-mode) #stage .pz-hint{position:relative;inset:auto!important;transform:none!important;margin:24px 0;white-space:normal;text-align:center;font-size:14px!important}
+ body:not(.export-mode) #stage .puzzle-tray{height:120px;flex:none}
+ body:not(.export-mode) #stage .sc-puzzle{width:78px!important}
+ body:not(.export-mode) #stage .sc-puzzle.placed{width:64px!important}
+ body:not(.export-mode) #stage .pz-l{font-size:11px!important}
+ body:not(.export-mode) .deck-viewport>.navigation{position:fixed;inset-inline:0;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 20px);width:max-content;gap:8px;padding:5px 7px}
+ body:not(.export-mode) .navigation button{font-size:13px!important;min-height:44px;padding:8px 17px}
+ .presentation-menu{top:7px;left:12px;font-size:11px;min-height:30px;padding:5px 13px}
+ dialog{max-width:calc(100vw - 20px);padding:20px;max-height:88svh}
+ #intro .bk-scene{top:-50px}
+ #intro .intro-caption{bottom:100px;display:grid;gap:2px;line-height:1.9;font-size:14px}
+ #intro .intro-caption strong{font-size:17px}
+ #intro .in-skip{bottom:30px}
+}
+@media(max-width:350px){
+ body:not(.export-mode) #stage{padding:20px 14px}
+ body:not(.export-mode) #stage h1{font-size:44px}
+ body:not(.export-mode) #stage h2{font-size:22px}
+ body:not(.export-mode) #stage .hook-card{padding:16px}
+ body:not(.export-mode) #stage .story-status{display:block;margin:10px 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+ #stage *,#stage::before,#stage::after,#intro *,#intro::before,#intro::after{animation:none!important;transition:none!important}
+ #intro .bk-wrap{opacity:1;transform:none!important}
+ #intro .leaf.cv,#intro .leaf.p1{transform:rotateY(180deg)}
+}
+@media print{.presentation-menu{display:none}.course-credits{color:inherit}}
