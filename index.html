@@ -569,6 +569,32 @@ body.export-mode .corner{display:none}
 
 body{background-image:linear-gradient(#06222499,#06222499),var(--pat)!important;background-blend-mode:normal!important}
 
+
+/* ================= interactive characters + reactions ================= */
+.char img,.char-panel .image-button{pointer-events:auto;cursor:pointer}
+#stage .char-float{pointer-events:none}
+@keyframes jumpy{0%{transform:translateY(0) scale(1,1)}25%{transform:translateY(8px) scale(1.04,.94)}55%{transform:translateY(-44px) scale(.97,1.05) rotate(-2deg)}80%{transform:translateY(0) scale(1.03,.96)}100%{transform:none}}
+.char img.jump,.char-img.jump{animation:jumpy .7s cubic-bezier(.3,1.4,.5,1)!important}
+.bubble{position:absolute;z-index:6;left:50%;top:-6px;transform:translate(-50%,-100%);max-width:300px;min-width:150px;padding:12px 18px;border-radius:20px;background:#fffdf6;color:#0f3a31;font-size:19px;line-height:1.7;text-align:center;font-weight:500;box-shadow:0 0 0 2px #e8c27a,0 18px 30px -14px #0f3a3188;animation:bubbleIn .5s cubic-bezier(.3,1.7,.5,1) both,bubbleOut .4s 3s ease-in forwards;pointer-events:none}
+.bubble::after{content:'';position:absolute;left:50%;bottom:-9px;width:16px;height:16px;margin-left:-8px;background:#fffdf6;border-right:2px solid #e8c27a;border-bottom:2px solid #e8c27a;transform:rotate(45deg)}
+@keyframes bubbleIn{from{opacity:0;transform:translate(-50%,-80%) scale(.4)}}
+@keyframes bubbleOut{to{opacity:0;transform:translate(-50%,-120%) scale(.9)}}
+.char:hover img,.char-panel .image-button:hover .char-img{filter:drop-shadow(0 24px 22px #0f3a3150) brightness(1.04)}
+.react-bar{position:absolute;z-index:5;right:76px;bottom:92px;display:flex;align-items:center;gap:8px;padding:8px 10px 8px 14px;border-radius:100px;background:linear-gradient(#fffdf6,#f8eed8);box-shadow:0 0 0 1px #e8c27a99,0 18px 36px -18px #0f3a3188}
+.rb-title{font-size:15px;color:#6b5a38;padding-inline:10px 6px;white-space:nowrap}
+.rb{position:relative;display:grid;place-items:center;width:52px;height:52px;padding:0;border-radius:50%;border:1px solid #e8c27a66;background:#fff;transition:transform .25s cubic-bezier(.3,1.7,.5,1),box-shadow .25s}
+.rb i{font-style:normal;font-size:28px;line-height:1;filter:saturate(1.1)}
+.rb:hover{transform:translateY(-6px) scale(1.18);box-shadow:0 14px 22px -10px #c0603f88}
+.rb b{position:absolute;top:-6px;left:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:100px;background:#c0603f;color:#fff;font-size:12px;line-height:20px;text-align:center}
+.rb b:empty{display:none}
+.rb.pop{animation:rbPop .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes rbPop{40%{transform:scale(1.4) rotate(-10deg)}}
+.float-emoji{position:fixed;z-index:120;pointer-events:none;animation:floatEmoji 2s ease-out forwards}
+@keyframes floatEmoji{from{opacity:1;transform:translate(0,0) scale(.6)}to{opacity:0;transform:translate(var(--dx),-240px) rotate(var(--r)) scale(1.3)}}
+body.export-mode .react-bar{display:none}
+@media(prefers-reduced-motion:reduce){.bubble,.rb.pop{animation:none!important}}
+.react-bar{bottom:112px!important}
+
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -1083,6 +1109,54 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
   for(let i=0;i<4;i++){const c=document.createElement('i');c.className='corner k'+i;c.setAttribute('aria-hidden','true');stageEl.append(c)}
   for(let i=0;i<3;i++){const d=document.createElement('i');d.className='deco d'+i;d.setAttribute('aria-hidden','true');stageEl.prepend(d)}
  }
+ /* ---------- interactive characters and reaction emoji ---------- */
+ const LINES={
+  c1:['کدام مسیر را انتخاب می‌کنی؟','قطب‌نمای تو چیست؟','بیا با هم جلو برویم!'],
+  c2:['قصه را کلمه‌به‌کلمه بخوانم؟','این داستان یعنی چه؟','یک صفحهٔ دیگر!'],
+  c3:['من این‌طور فکر می‌کنم… تو چه؟','بیا گفت‌وگو کنیم.','نظر دیگری هم هست؟'],
+  c4:['دلیل باورم چیست؟','آیا مطمئنم؟','باید بیشتر فکر کنم…'],
+  c5:['خیال هم بخشی از فهم است!','ستاره‌ام را دیدی؟','بالاتر، بالاتر!'],
+  c6:['همدلی دایره را بزرگ می‌کند.','دستت را بده.','با هم آرام‌تر می‌رویم.'],
+  c7:['همه باید شنیده شوند.','تو چه می‌گویی؟','بیا دور هم بنشینیم.'],
+  c8:['پیش از واژه‌ها، اعتماد است.','هیس… آرام.','چه لبخند قشنگی!'],
+  c10:['یک پرسش دیگر دارم…','یادداشت کنم؟','آیا همیشه همین‌طور است؟']
+ };
+ const bubbleIdx={};
+ function react(host,id){
+  const img=host.querySelector('img');if(!img)return;
+  img.classList.remove('jump');void img.offsetWidth;img.classList.add('jump');
+  host.querySelector('.bubble')?.remove();
+  const arr=LINES[id]||LINES.c4;bubbleIdx[id]=((bubbleIdx[id]??-1)+1)%arr.length;
+  const b=document.createElement('div');b.className='bubble';b.textContent=arr[bubbleIdx[id]];host.append(b);
+  setTimeout(()=>b.remove(),3400);
+  const r=img.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.25,16);
+ }
+ function curId(){const m=stageEl.querySelector('.char,.char-panel');return m?(CHARS[window.__currentSlide]||'c4'):null}
+ stageEl.addEventListener('click',e=>{
+  const hit=e.target.closest('.char img,.char-panel .image-button');
+  if(!hit)return;
+  e.stopImmediatePropagation();e.preventDefault();
+  const host=hit.closest('.char,.char-panel');react(host,CHARS[window.__currentSlide]||'c4');
+ },true);
+ const REACT=[['🤔','کنجکاو'],['🌱','در حال رشد'],['❤️','دل‌گرم'],['💡','فهمیدم'],['❓','پرسش دارم']];
+ const counts={};
+ function addReactions(index){
+  if(index===0||stageEl.querySelector('.react-bar'))return;
+  const s=DECK.slides[index];if(!s||s.type!=='content')return;
+  const bar=document.createElement('div');bar.className='react-bar';bar.setAttribute('role','group');bar.setAttribute('aria-label','واکنش شما');
+  const c=counts[index]=counts[index]||{};
+  bar.innerHTML='<span class="rb-title">حس شما چیست؟</span>'+REACT.map(([em,t],i)=>'<button type="button" class="rb" data-r="'+i+'" aria-label="'+t+'" title="'+t+'"><i>'+em+'</i><b>'+(c[i]?c[i].toLocaleString('fa-IR'):'')+'</b></button>').join('');
+  bar.addEventListener('click',ev=>{
+   const b=ev.target.closest('.rb');if(!b)return;ev.stopPropagation();
+   const i=+b.dataset.r;c[i]=(c[i]||0)+1;b.querySelector('b').textContent=c[i].toLocaleString('fa-IR');
+   b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
+   if(!motionOn())return;
+   const r=b.getBoundingClientRect();
+   for(let k=0;k<7;k++){const f=document.createElement('span');f.className='float-emoji';f.textContent=REACT[i][0];f.style.left=(r.left+r.width/2+(Math.random()-.5)*30)+'px';f.style.top=r.top+'px';f.style.setProperty('--dx',((Math.random()-.5)*160)+'px');f.style.setProperty('--r',((Math.random()-.5)*60)+'deg');f.style.animationDelay=(k*70)+'ms';f.style.fontSize=(22+Math.random()*16)+'px';body.append(f);setTimeout(()=>f.remove(),2400)}
+   const host=stageEl.querySelector('.char,.char-panel');if(host)react(host,CHARS[index]||'c4');
+  });
+  stageEl.append(bar);
+ }
  stageEl.addEventListener('pointermove',e=>{
   const r=stageEl.getBoundingClientRect();
   stageEl.style.setProperty('--px',((e.clientX-r.left)/r.width-.5).toFixed(3));
@@ -1091,7 +1165,7 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  let last=-1;
  const SEL='.text-card:not(.english):not(.hook-card), .map-card, .concept-card, .scenario, .stage-tab';
  function decorate(index){
-  charify(index);addDeco();
+  charify(index);addDeco();addReactions(index);
   stageEl.querySelectorAll(SEL).forEach(el=>el.classList.add('fx-card'));
   const entering=index!==last;
   if(entering&&motionOn()){
