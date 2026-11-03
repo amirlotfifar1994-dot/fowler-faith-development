@@ -36,6 +36,20 @@ body.projector-mode { background: #e5edf5; color: #101d31; }
 .projector-mode :is(.text-card,.map-card,.concept-card,.scenario) :is(strong,h2,h3,h4) { color: #003f70; }
 .projector-mode :focus-visible { outline: 3px solid #e98b00; outline-offset: 3px; }
 .projector-mode .fragment-reveal { animation-duration: 180ms; }
+
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+ #stage { touch-action: pan-y pinch-zoom; }
+ .navigation button {
+  min-width: 76px;
+  min-height: 48px;
+  touch-action: manipulation;
+ }
+ .bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+@media (max-width: 430px) {
+ .bottom .chapter { display: none; }
+ .navigation { gap: 7px; }
+}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div></div></main>
@@ -193,7 +207,24 @@ document.getElementById('fullscreen-button').onclick=fullScreen;
 document.getElementById('print-button').onclick=()=>{document.getElementById('print-deck').innerHTML=slides.map((s,i)=>'<section class="slide '+(s.type==='cover'?'cover':'')+'">'+renderHTML(s,i,true)+'</section>').join('');window.print()};
 function toast(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
 document.addEventListener('keydown',e=>{if(e.defaultPrevented||document.querySelector('dialog[open]')||e.target.closest('input,textarea,[role=tab]')||(e.key===' '&&e.target.closest('button,a')))return;if(['ArrowLeft','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();move(1)}else if(['ArrowRight','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();move(-1)}else if(e.key==='Home'){e.preventDefault();renderSlide(0)}else if(e.key==='End'){e.preventDefault();renderSlide(slides.length-1)}else if(e.key.toLowerCase()==='f')fullScreen();else if(e.key.toLowerCase()==='g'){renderOverview();openDialog('overview')}});
-let touchStart=null;stage.addEventListener('touchstart',e=>{if(e.target.closest('button,a'))return;touchStart={x:e.changedTouches[0].screenX,y:e.changedTouches[0].screenY}},{passive:true});stage.addEventListener('touchend',e=>{if(!touchStart)return;const dx=e.changedTouches[0].screenX-touchStart.x,dy=e.changedTouches[0].screenY-touchStart.y;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.5)move(dx>0?-1:1);touchStart=null},{passive:true});
+let touchStart = null;
+stage.addEventListener('touchstart', event => {
+ touchStart = null;
+ if (event.touches.length !== 1 || event.target.closest('button,a,input,select,textarea,summary')) return;
+ const touch = event.changedTouches[0];
+ touchStart = {id: touch.identifier, x: touch.clientX, y: touch.clientY};
+}, {passive:true});
+stage.addEventListener('touchcancel', () => { touchStart = null; }, {passive:true});
+stage.addEventListener('touchend', event => {
+ const start = touchStart;
+ touchStart = null;
+ if (!start || event.touches.length) return;
+ const touch = Array.from(event.changedTouches).find(item => item.identifier === start.id);
+ if (!touch) return;
+ const dx = touch.clientX - start.x;
+ const dy = touch.clientY - start.y;
+ if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.5) move(dx < 0 ? 1 : -1);
+}, {passive:true});
 addEventListener('resize',resize);addEventListener('fullscreenchange',resize);addEventListener('hashchange',()=>renderSlide((Number(new URLSearchParams(location.hash.slice(1)).get('slide'))||1)-1,false));
 if(new URLSearchParams(location.search).has('export'))document.body.classList.add('export-mode');
 renderSlide((Number(new URLSearchParams(location.hash.slice(1)).get('slide'))||1)-1,false);
