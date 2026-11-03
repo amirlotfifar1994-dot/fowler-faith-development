@@ -595,6 +595,59 @@ body.export-mode .react-bar{display:none}
 @media(prefers-reduced-motion:reduce){.bubble,.rb.pop{animation:none!important}}
 .react-bar{bottom:112px!important}
 
+
+/* ================= opening book ================= */
+body.intro-on{overflow:hidden}
+#intro{position:fixed;inset:0;z-index:300;display:grid;place-items:center;overflow:hidden;background:radial-gradient(900px 620px at 50% 46%,#16604f 0%,#0a2f2d 55%,#041516 100%);opacity:0;transition:opacity .9s,visibility 1s;cursor:pointer}
+#intro.in{opacity:1}#intro.out{opacity:0;visibility:hidden;pointer-events:none}
+#intro .in-glow{position:absolute;left:50%;top:48%;width:70vmin;height:70vmin;margin:-35vmin 0 0 -35vmin;border-radius:50%;background:radial-gradient(circle,#e8c27a55,#c0603f22 45%,transparent 70%);animation:breathe 5s ease-in-out infinite}
+.bk-scene{position:relative;width:0;height:0;perspective:2400px;perspective-origin:50% 35%;transform:scale(var(--k,1));transition:transform 1.1s cubic-bezier(.6,0,.2,1),opacity .9s}
+.bk-scene.zoom{transform:scale(calc(var(--k,1)*5));opacity:0}
+.bk-wrap{position:absolute;left:0;top:0;transform-style:preserve-3d;transform:translateX(170px) scale(.6) translateY(40px);opacity:0;transition:transform 1.8s cubic-bezier(.5,.1,.2,1),opacity 1s}
+#intro.in .bk-wrap{transform:translateX(170px) scale(1);opacity:1}
+#intro.in .bk-wrap.open{transform:translateX(0) scale(1.08)}
+.book{position:absolute;left:-340px;top:-230px;width:340px;height:460px;transform-style:preserve-3d;transform:rotateX(16deg) rotateZ(-1.5deg);animation:bookFloat 6s ease-in-out infinite}
+@keyframes bookFloat{50%{transform:rotateX(13deg) rotateZ(1deg) translateY(-8px)}}
+.board{position:absolute;inset:-8px -8px -8px -8px;border-radius:10px;background:linear-gradient(135deg,#0b3a31,#071f1c);transform:translateZ(-6px);box-shadow:0 60px 80px -20px #000c,0 0 0 1px #e8c27a44}
+.leaf{position:absolute;inset:0;transform-origin:right center;transform-style:preserve-3d;transition:transform 1.7s cubic-bezier(.55,.05,.25,1)}
+.leaf.base{transform:translateZ(1px)}.leaf.p1{transform:translateZ(2px)}.leaf.cv{transform:translateZ(3px)}
+.leaf.flip{transform:translateZ(var(--z,3px)) rotateY(180deg)}
+.leaf.p1.flip{--z:4px}.leaf.cv.flip{--z:3px}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px 14px 14px 6px;overflow:hidden}
+.face.back{transform:rotateY(180deg);border-radius:14px 6px 6px 14px}
+.pg{background:linear-gradient(90deg,#f1e4c8,#fbf3e1 12%,#fffaf0 60%,#f3e6cc);box-shadow:inset 0 0 40px #b8873b30}
+.pg.back,.face.back.pg{background:linear-gradient(270deg,#f1e4c8,#fbf3e1 12%,#fffaf0 60%,#f3e6cc)}
+.pg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#00000022,transparent 14%);pointer-events:none}
+.face.back.pg::after{background:linear-gradient(270deg,#00000022,transparent 14%)}
+.pg-in{position:absolute;inset:34px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#0f3a31;gap:14px}
+.pg-in h3{font-size:30px;line-height:1.7;margin:0;background:linear-gradient(260deg,#0f3a31,#2f6b5e,#a47a35);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pg-in h4{font-size:20px;margin:0;color:#a2492d}
+.pg-in .eyebrow{font-size:13px;color:#b8873b;letter-spacing:.5px}
+.steps{display:flex;align-items:center;gap:8px;margin:8px 0 0;font-size:15px}.steps b{padding:3px 12px;border-radius:100px;background:#0f3a3112}.steps i{font-style:normal;color:#c0603f}
+.ln{height:7px;border-radius:4px;background:linear-gradient(270deg,#0f3a3126,#0f3a3110);margin:0;width:0;transition:width 1.2s ease}
+.ln.l1{max-width:100%}.chars .ln,#intro.chars .ln{width:100%}.ln.l2{transition-delay:.15s}.ln.l3{transition-delay:.3s}.ln.l4{transition-delay:.45s}
+.pg-in.art .sprout{width:80%}
+.sprout .g{stroke-dasharray:140;stroke-dashoffset:140}.sprout .bud{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.open .p1 .sprout .g{animation:growLine 1.2s .9s ease forwards}.sprout .g2{animation-delay:1.3s!important}.sprout .g3{animation-delay:1.6s!important}.sprout .g4{animation-delay:1.9s!important}
+.open .p1 .sprout .bud{animation:budPop .7s 2.1s cubic-bezier(.3,1.8,.5,1) forwards}
+@keyframes growLine{to{stroke-dashoffset:0}}@keyframes budPop{to{opacity:1;transform:scale(1)}}
+.cover{background:var(--pat) center/60px,linear-gradient(135deg,#145a4b,#0c3a33 60%,#082a25);background-blend-mode:soft-light,normal;box-shadow:inset 0 0 0 2px #e8c27a,inset 0 0 0 9px #0c3a33,inset 0 0 0 10px #e8c27a88,inset 14px 0 24px -8px #00000099}
+.cover::before{content:'';position:absolute;top:0;bottom:0;right:0;width:26px;background:linear-gradient(270deg,#041a16,#0c3a33);box-shadow:-2px 0 0 #e8c27a66}
+.cv-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding-right:20px;color:#f3d28f}
+.cv-in .star{width:150px;animation:spin 40s linear infinite}
+.cv-in h2{margin:0;font-size:46px;line-height:1.5;background:linear-gradient(100deg,#fff 10%,#f3d28f 50%,#e8c27a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cv-in span{font-size:15px;color:#cfd9c9;letter-spacing:.3px}
+.inner{background:linear-gradient(270deg,#e9dcc0,#f6ecd6)}.inner .pg-in .star{width:120px;opacity:.7;filter:brightness(.7)}
+.in-char{position:absolute;bottom:-4%;height:min(58vh,520px);width:auto;opacity:0;transform:translateY(80px) scale(.8);transition:transform 1s cubic-bezier(.3,1.5,.5,1),opacity .7s;filter:drop-shadow(0 26px 24px #000a);pointer-events:none}
+.in-char.a{left:6%}.in-char.b{right:6%;height:min(50vh,440px)}
+#intro.chars .in-char{opacity:1;transform:none}
+.in-skip{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);padding:8px 22px;border-radius:100px;border:1px solid #e8c27a66;background:#ffffff12;color:#f3efe2;font-size:14px;backdrop-filter:blur(8px)}
+.in-skip:hover{background:#ffffff26}
+#intro-button{background:#ffffff0d;color:#e9efe5;border:1px solid #ffffff1c;border-radius:100px;padding:7px 16px;font-size:12.5px}
+#intro-button:hover{background:#ffffff1c;border-color:#e8c27a99}
+@media(max-width:700px){.in-char{display:none}}
+
+body.export-mode #intro,body.export-mode #intro-button{display:none}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -1218,5 +1271,50 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea'))return;if(e.key.toLowerCase()==='p'&&!e.ctrlKey&&!e.metaKey&&!document.querySelector('dialog[open]'))on?stop():start();else if(on&&e.key==='Escape')stop()});
  document.querySelector('.navigation')?.addEventListener('click',()=>{if(on){sub=0;schedule(dwell(5.5))}});
  window.addEventListener('deck:slide',()=>{sub=0});
+})();
+
+/* ---------- opening book animation ---------- */
+(()=>{
+ const body=document.body;
+ if(body.classList.contains('export-mode')||new URLSearchParams(location.search).has('export'))return;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const star='<svg viewBox="-60 -60 120 120" class="star" aria-hidden="true"><g fill="none" stroke="#e8c27a" stroke-width="1.6"><path d="M0-50L12-20 42-30 30 0 50 12 20 20 30 50 0 38-30 50-20 20-50 12-30 0-42-30-12-20Z"/><circle r="14"/><circle r="56" stroke-dasharray="2 5" opacity=".6"/></g></svg>';
+ const sprout='<svg viewBox="0 0 200 240" class="sprout" aria-hidden="true"><g fill="none" stroke="#2f6b5e" stroke-width="4" stroke-linecap="round"><path class="g g1" d="M100 230V120"/><path class="g g2" d="M100 170C70 165 55 145 52 120"/><path class="g g3" d="M100 150C132 146 146 126 150 100"/><path class="g g4" d="M100 120C100 90 96 70 100 48"/></g><g fill="#c0603f"><circle class="bud b1" cx="52" cy="116" r="11"/><circle class="bud b2" cx="150" cy="96" r="11"/></g><g fill="#e8c27a"><circle class="bud b3" cx="100" cy="42" r="14"/></g><path d="M50 232h100" stroke="#b8873b" stroke-width="3" stroke-linecap="round"/></svg>';
+ function build(){
+  const el=document.createElement('div');el.id='intro';el.setAttribute('role','dialog');el.setAttribute('aria-label','افتتاحیهٔ ارائه');
+  el.innerHTML='<i class="in-glow"></i><div class="bk-scene"><div class="bk-wrap"><div class="book">'
+   +'<div class="board"></div>'
+   +'<div class="leaf base"><div class="face front pg"><div class="pg-in"><h4>فاولر، نقدها و آینده‌های معنا</h4><p class="ln l1"></p><p class="ln l2"></p><p class="ln l3"></p><p class="ln l4"></p></div></div></div>'
+   +'<div class="leaf p1"><div class="face front pg"><div class="pg-in art">'+sprout+'</div></div><div class="face back pg"><div class="pg-in"><span class="eyebrow">پرسش آغازین</span><h3>ایمان ما چطور تغییر می‌کند؟</h3><p class="steps"><b>کودکی</b><i>←</i><b>نوجوانی</b><i>←</i><b>بزرگسالی</b></p></div></div></div>'
+   +'<div class="leaf cv"><div class="face front cover"><div class="cv-in">'+star+'<h2>تحول ایمان</h2><span>روان‌شناسی تحولی دینی</span></div></div><div class="face back pg inner"><div class="pg-in">'+star+'</div></div></div>'
+   +'</div></div></div>'
+   +'<img class="in-char a" src="assets/chars/c1.webp" alt=""><img class="in-char b" src="assets/chars/c10.webp" alt="">'
+   +'<button type="button" class="in-skip">رد کردن ›</button>';
+  return el;
+ }
+ let el=null,timers=[];
+ function T(fn,ms){timers.push(setTimeout(fn,ms))}
+ function finish(){timers.forEach(clearTimeout);timers=[];if(!el)return;const e=el;el=null;e.classList.add('out');setTimeout(()=>e.remove(),1100);body.classList.remove('intro-on');try{sessionStorage.setItem('fowler-intro','1')}catch(_){}document.getElementById('stage')?.focus({preventScroll:true})}
+ function play(){
+  if(el)return;
+  el=build();body.append(el);body.classList.add('intro-on');
+  const k=Math.min(1,innerWidth/840,innerHeight/700);el.style.setProperty('--k',k);
+  const W=el.querySelector('.bk-wrap'),cv=el.querySelector('.cv'),p1=el.querySelector('.p1'),sc=el.querySelector('.bk-scene');
+  const mid=()=>{const r=el.querySelector('.book').getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+  T(()=>el.classList.add('in'),60);
+  T(()=>{W.classList.add('open');cv.classList.add('flip')},1100);
+  T(()=>p1.classList.add('flip'),3000);
+  T(()=>{el.classList.add('chars');const[x,y]=mid();window.deckBurst&&window.deckBurst(x,y,34)},4300);
+  T(()=>{const[x,y]=mid();window.deckBurst&&window.deckBurst(x,y-60,26)},5300);
+  T(()=>sc.classList.add('zoom'),6500);
+  T(finish,7500);
+  el.addEventListener('click',finish);
+  addEventListener('keydown',function esc(e){if(e.key==='Escape'||e.key==='Enter'||e.key===' '){if(el){e.preventDefault();finish()}removeEventListener('keydown',esc)}});
+ }
+ window.playBookIntro=play;
+ const bar=document.querySelector('.top-actions');
+ if(bar){const b=document.createElement('button');b.type='button';b.id='intro-button';b.textContent='📖 افتتاحیه';b.addEventListener('click',play);bar.append(b)}
+ let seen=false;try{seen=sessionStorage.getItem('fowler-intro')==='1'}catch(_){}
+ if(!reduce&&!seen&&!/#slide=(?!1$)/.test(location.hash))play();
 })();
 </script></body></html>
