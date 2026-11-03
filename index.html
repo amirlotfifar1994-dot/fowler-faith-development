@@ -196,6 +196,7 @@ body:not(.export-mode) #stage.immersive-slide .hook-card {
 body:not(.export-mode) #stage.immersive-slide .hook-card {
  background:#081a24d9; backdrop-filter:blur(8px);
 }
+ #stage .story-back { margin-inline-start:10px; background:transparent; color:inherit; }
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -344,29 +345,36 @@ function renderSlide(index,updateHash=true){
    const advance = document.createElement('button');
    advance.type = 'button';
    advance.className = 'story-advance';
+   const back = document.createElement('button');
+   back.type = 'button';
+   back.className = 'story-advance story-back';
+   back.textContent = 'بخش قبل';
    const status = document.createElement('span');
    status.className = 'story-status';
    passage.setAttribute('aria-live', 'polite');
    let step = 0;
    function showStep() {
+    back.disabled = step === 0;
     status.textContent = fa(step + 1) + ' / ' + fa(parts.length);
     advance.textContent = step === parts.length - 1 ? 'بازگشت به پرسش' : 'ادامهٔ متن';
    }
-   function nextPassage() {
-    step = (step + 1) % parts.length;
+   function nextPassage(delta = 1) {
+    step = (step + delta + parts.length) % parts.length;
     passage.innerHTML = step ? referenceMarkup(parts[step]) : esc(parts[step]);
     hook.classList.toggle('story-reading', step > 0);
+    passage.scrollTop = 0;
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
      passage.getAnimations().forEach(animation => animation.cancel());
      passage.animate([{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'translateY(0)'}], {duration:320, easing:'ease-out'});
     }
     showStep();
    }
-   advance.onclick = nextPassage;
+   advance.onclick = () => nextPassage();
+   back.onclick = () => nextPassage(-1);
    hook.onclick = event => {
     if (!event.target.closest('button,a') && !String(getSelection())) nextPassage();
    };
-   hook.append(advance, status);
+   hook.append(advance, back, status);
    showStep();
   }
  }
