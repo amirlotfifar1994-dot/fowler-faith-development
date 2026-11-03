@@ -1,0 +1,16 @@
+IMAGE CREDITS
+
+Real portrait of James W. Fowler:
+Source: Emory University Center for Ethics, Center Founding
+https://ethics.emory.edu/about/center-founding.html
+Original image: https://ethics.emory.edu/_includes/images/about/james-fowler.jpg
+Retrieved: 2026-11-02
+Ownership remains with the original rights holder. No open license is asserted.
+
+Concept artwork generated with OpenAI image generation for this presentation:
+meaning-cover.png, infancy.png, imagination.png, stories.png, belonging.png,
+reflection.png, dialogue.png, compassion.png, evidence.png, future.png, meaning.png
+These are conceptual illustrations, not documentary photographs, research data,
+portraits of study participants or biographical depictions of James Fowler.
+
+Vazir font CSS was retained from the user's half-life-of-meaning-book project.

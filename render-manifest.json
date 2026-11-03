@@ -1,0 +1,598 @@
+{
+  "slides": [
+    {
+      "number": 1,
+      "title": "تحول ایمان",
+      "group": "آغاز",
+      "file": "renders/slide-01.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 2,
+      "title": "مسیر گفت‌وگو",
+      "group": "آغاز",
+      "file": "renders/slide-02.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 3,
+      "title": "هفت وضعیت در الگوی کلاسیک",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-03.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 4,
+      "title": "مسئلهٔ کنفرانس",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-04.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 5,
+      "title": "مسئلهٔ کنفرانس",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-05.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 6,
+      "title": "حدود بررسی و شیوهٔ استناد",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-06.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 7,
+      "title": "حدود بررسی و شیوهٔ استناد",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-07.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 8,
+      "title": "شروع ارائه",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-08.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 9,
+      "title": "زندگی‌نامهٔ جیمز فاولر",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-09.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 10,
+      "title": "زندگی‌نامهٔ جیمز فاولر",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-10.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 11,
+      "title": "معرفی نظریه",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-11.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 12,
+      "title": "تمایزهایی که باید حفظ شوند",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-12.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 13,
+      "title": "تمایزهایی که باید حفظ شوند",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-13.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 14,
+      "title": "مراحل تحول ایمان",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-14.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 15,
+      "title": "صفر: ایمان اولیه یا تمایزنایافته",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-15.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 16,
+      "title": "یک: ایمان شهودی ـ فرافکنانه",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-16.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 17,
+      "title": "دو: ایمان اسطوره‌ای ـ تحت‌اللفظی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-17.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 18,
+      "title": "سه: ایمان ترکیبی ـ قراردادی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-18.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 19,
+      "title": "چهار: ایمان فردیت‌یافته ـ تأملی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-19.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 20,
+      "title": "پنج: ایمان پیوندی یا تلفیقی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-20.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 21,
+      "title": "شش: ایمان جهان‌شمول",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-21.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 22,
+      "title": "کاربرد در تربیت دینی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-22.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 23,
+      "title": "کاربرد در تربیت دینی",
+      "group": "مبانی و مراحل",
+      "file": "renders/slide-23.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 24,
+      "title": "نظریه بر چه شواهدی بنا شده و چه چیزی را ثابت نمی‌کند؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-24.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 25,
+      "title": "نظریه بر چه شواهدی بنا شده و چه چیزی را ثابت نمی‌کند؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-25.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 26,
+      "title": "۱. آیا تحول، یک مسیر ثابت و برگشت‌ناپذیر است؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-26.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 27,
+      "title": "۲. آیا شناخت، موتور اصلی همهٔ تغییرات دینی است؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-27.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 28,
+      "title": "۳. آیا ابزار سنجش دقیقاً همان چیزی را می‌سنجد که ادعا می‌شود؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-28.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 29,
+      "title": "۴. آیا نظریه در فرهنگ‌های اسلامی همان معنا را دارد؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-29.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 30,
+      "title": "۵. آیا «مرحلهٔ بالاتر» به معنای «انسان بهتر» است؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-30.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 31,
+      "title": "۶. آیا افزایش شک، الزاماً رشد یا الزاماً ترک دین است؟",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-31.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 32,
+      "title": "جمع‌بندی نقدها",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-32.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 33,
+      "title": "از «مرحله» به «سبک»: بازنگریِ مهم پس از فاولر",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-33.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 34,
+      "title": "یک فرد، چند شیوهٔ معنا دادن",
+      "group": "شواهد و نقد",
+      "file": "renders/slide-34.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 35,
+      "title": "روش و مرز ادعا",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-35.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 36,
+      "title": "چهار سناریوی ممکن",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-36.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 37,
+      "title": "چهار سناریوی ممکن",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-37.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 38,
+      "title": "چهار سناریوی ممکن",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-38.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 39,
+      "title": "چهار آیندهٔ ممکن",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-39.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 40,
+      "title": "نشانه‌هایی که می‌توان در آینده بررسی کرد",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-40.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 41,
+      "title": "نشانه‌هایی که می‌توان در آینده بررسی کرد",
+      "group": "آینده‌های ممکن",
+      "file": "renders/slide-41.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 42,
+      "title": "پیوند با کتاب «نیمه‌عمر معنا»",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-42.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 43,
+      "title": "پیوند با کتاب «نیمه‌عمر معنا»",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-43.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 44,
+      "title": "پیوند با کتاب «نیمه‌عمر معنا»",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-44.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 45,
+      "title": "چالش‌هایی که از دل بحث بیرون می‌آید",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-45.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 46,
+      "title": "چالش‌هایی که از دل بحث بیرون می‌آید",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-46.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 47,
+      "title": "چالش‌هایی که از دل بحث بیرون می‌آید",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-47.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 48,
+      "title": "آزمایش فکریِ مرجعیت",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-48.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 49,
+      "title": "طرح الف: پاسخ آماده در برابر گفت‌وگوی هدایت‌شده",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-49.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 50,
+      "title": "طرح ب: چندبعدی بودن ایمان در تجربهٔ واقعی",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-50.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 51,
+      "title": "طرح ب: چندبعدی بودن ایمان در تجربهٔ واقعی",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-51.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 52,
+      "title": "پایان پیشنهادی ارائه",
+      "group": "معنا و چالش‌ها",
+      "file": "renders/slide-52.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 53,
+      "title": "نقشهٔ اجرای کنفرانس در ۲۰ تا ۲۵ دقیقه",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-53.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 54,
+      "title": "نقشهٔ اجرای کنفرانس در ۲۰ تا ۲۵ دقیقه",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-54.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 55,
+      "title": "پاسخ کوتاه به پرسش‌های احتمالی استاد",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-55.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 56,
+      "title": "پاسخ کوتاه به پرسش‌های احتمالی استاد",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-56.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 57,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-57.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 58,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-58.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 59,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-59.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 60,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-60.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 61,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-61.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 62,
+      "title": "منابع و میزان استفاده",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-62.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 63,
+      "title": "اصلاح‌های مهم نسبت به نسخهٔ اول",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-63.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 64,
+      "title": "اصلاح‌های مهم نسبت به نسخهٔ اول",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-64.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "number": 65,
+      "title": "اصلاح‌های مهم نسبت به نسخهٔ اول",
+      "group": "پیوست و منابع",
+      "file": "renders/slide-65.png",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "detail_images": [
+    {
+      "file": "note-01.png",
+      "title": "آغاز"
+    },
+    {
+      "file": "note-02.png",
+      "title": "مبانی و مراحل"
+    },
+    {
+      "file": "note-03.png",
+      "title": "پیوست و منابع"
+    },
+    {
+      "file": "note-04.png",
+      "title": "شواهد و نقد"
+    },
+    {
+      "file": "note-05.png",
+      "title": "آینده‌های ممکن"
+    },
+    {
+      "file": "note-06.png",
+      "title": "معنا و چالش‌ها"
+    },
+    {
+      "file": "term-01.png",
+      "title": "تحول ایمان"
+    },
+    {
+      "file": "term-02.png",
+      "title": "ساختار ایمان"
+    },
+    {
+      "file": "term-03.png",
+      "title": "سبک‌های دینی"
+    },
+    {
+      "file": "term-04.png",
+      "title": "مرجعیت"
+    },
+    {
+      "file": "term-05.png",
+      "title": "نمونهٔ بنیانی"
+    },
+    {
+      "file": "term-06.png",
+      "title": "تحت‌اللفظی"
+    },
+    {
+      "file": "term-07.png",
+      "title": "جهان‌شمول"
+    },
+    {
+      "file": "term-08.png",
+      "title": "نیمه‌عمر معنا"
+    },
+    {
+      "file": "term-09.png",
+      "title": "فهم قابل‌انتقال"
+    },
+    {
+      "file": "term-10.png",
+      "title": "سناریو"
+    },
+    {
+      "file": "term-11.png",
+      "title": "پژوهش طولی"
+    },
+    {
+      "file": "term-12.png",
+      "title": "شناخت"
+    }
+  ]
+}
