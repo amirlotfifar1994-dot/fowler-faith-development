@@ -137,3 +137,90 @@ body::before,body::after{animation:none!important;filter:none!important;opacity:
  #intro .leaf.cv,#intro .leaf.p1{transform:rotateY(180deg)}
 }
 @media print{.presentation-menu{display:none}.course-credits{color:inherit}}
+
+/* Editorial surface: ornament stays out of the reading area. */
+body{background:#102e2b!important}
+body::before,body::after{display:none!important}
+body:not(.export-mode) #stage.slide{background:#fcfbf7!important;color:#183f35;border:1px solid #dde5dc;box-shadow:0 20px 64px #001f2529}
+body:not(.export-mode) #stage.slide::before,body:not(.export-mode) #stage.slide::after{background:none!important;box-shadow:none!important}
+#stage .deco,#stage .corner,#stage .section-cutout{display:none!important}
+#stage h2,#stage h3{color:#173f35;background:none!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important}
+#stage h2{letter-spacing:-.4px;font-weight:800}
+#stage .slide-top{color:#65796c}
+#stage .slide-foot{color:#5b7065}
+#stage .interactive-hook{color:#47685b;text-shadow:none;line-height:1.8}
+body:not(.export-mode) #stage .hook-card{background:#153f35!important;border:1px solid #305c4e!important;box-shadow:0 12px 30px #173f351c!important}
+#stage .hook-card p,#stage .discussion-box{color:#fffdf5!important;text-shadow:none!important}
+#stage .hook-card::after{opacity:.06}
+#stage .hook-card p{text-wrap:pretty}
+body:not(.export-mode) #stage .text-card:not(.hook-card):not(.english){background:#fffefb!important;border:1px solid #dee6dd!important;box-shadow:0 8px 24px #163d3310!important}
+#stage .text-card:not(.hook-card)::before{background:#b9c9b8!important}
+#stage .concept-card,#stage .stage-panel,#stage .scenario-detail{background:#f0f4ee!important;border-color:#dce5d9;box-shadow:0 8px 24px #163d330e}
+#stage .discussion-box{background:#153f35!important;box-shadow:0 12px 30px #173f351c}
+#stage .discussion-result{background:#edf4ed;color:#23493d;line-height:1.9}
+#stage .notes-button{background:#edf2e9;border-color:#d3dfcf;color:#284c3e}
+body:not(.export-mode) #stage.slide.cover{background:linear-gradient(115deg,#0e302c,#174438)!important;color:#f8f4e9}
+#stage.cover h1{background:none!important;-webkit-text-fill-color:#fffaf0!important;color:#fffaf0!important;text-shadow:none!important;font-size:92px;line-height:1.3}
+#stage.cover .cover-copy{margin-top:42px;max-width:900px}
+#stage.cover .cover-hook{color:#e6d8b6;font-size:31px;margin:10px 0}
+#stage.cover .subtitle{color:#d8e3d9;font-size:30px}
+#stage.cover .cover-tag{margin-top:20px;box-shadow:none!important}
+#stage.cover .course-credits{font-size:20px;gap:7px 28px;margin-top:18px}
+#stage.cover .slide-top,#stage.cover .slide-foot{color:#c4d6c9}
+#stage.cover .art.cover-art-ready{opacity:.22}
+
+/* A real tiny preview stays visible until the full image has decoded. */
+#stage .image-button.asset-host{position:relative}
+#stage img.asset-preview{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:contain!important;filter:blur(4px)!important;opacity:.8;pointer-events:none!important;z-index:0;transition:opacity .7s ease,filter .7s ease;transform:none!important}
+#stage img.asset-preview.preview-retired{opacity:0;filter:blur(0)!important}
+#stage img.asset-pending:not(.asset-preview){position:relative;z-index:1;opacity:0;filter:blur(8px)}
+#stage img.asset-ready:not(.asset-preview){position:relative;z-index:1;opacity:1;filter:blur(0) drop-shadow(0 8px 9px #173f3521);transition:opacity .55s ease-out,filter .75s ease-out}
+
+/* Visible artwork has a floating pose; cursor tilt stays on its own layer. */
+#stage .motion-subject{animation:artFloat 6.8s ease-in-out var(--motion-phase,0s) infinite!important;animation-play-state:paused!important;transform-origin:50% 65%;transform-style:preserve-3d}
+#stage .motion-subject.motion-visible{animation-play-state:running!important}
+#stage .char[data-enter="hop"].motion-subject{animation-name:artHop!important;animation-duration:5.2s!important}
+#stage .char-panel[data-enter="rise"] .motion-subject{animation-name:artBreathe!important}
+#stage .discussion-art .motion-subject{animation-name:thoughtFloat!important;animation-duration:5.4s!important}
+#stage .sc-puzzle.dragging{animation:none!important;transform:scale(1.06)!important}
+@keyframes artHop{0%,75%,100%{transform:translateY(0) rotate(-.4deg)}84%{transform:translateY(-14px) rotate(1.6deg)}92%{transform:translateY(-3px) rotate(-.7deg)}}
+@keyframes artBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.018)}}
+@keyframes thoughtFloat{0%,100%{transform:perspective(1000px) translateY(0) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) rotateZ(-.8deg)}50%{transform:perspective(1000px) translateY(-12px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) rotateZ(1.2deg)}}
+@keyframes artFloat{
+ 0%,100%{transform:perspective(1000px) translateY(0) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) rotateZ(-.4deg)}
+ 50%{transform:perspective(1000px) translateY(-9px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) rotateZ(.5deg)}
+}
+#stage .motion-subject.art-engaged{filter:drop-shadow(0 8px 12px #b59a5233)}
+#stage .char img.jump,#stage .char-panel img.jump,#stage .discussion-art img.jump{animation:artGreeting .7s cubic-bezier(.25,.8,.25,1)!important}
+@keyframes artGreeting{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-18px) rotate(-3deg)}65%{transform:translateY(-5px) rotate(2deg)}}
+#stage .sprop img.book-flutter{animation:bookFlutter .75s ease-in-out!important}
+@keyframes bookFlutter{0%,100%{transform:perspective(600px) rotateY(0) scale(1)}35%{transform:perspective(600px) rotateY(-13deg) scale(1.04)}70%{transform:perspective(600px) rotateY(8deg) scale(1.02)}}
+#stage .sprop:active img{filter:drop-shadow(0 6px 16px #b7984b66)}
+#stage .discussion-art{pointer-events:auto}
+#stage .discussion-art .image-button{display:block;width:100%;height:auto;border:0;padding:0;background:none!important;box-shadow:none!important;overflow:visible;border-radius:0}
+#stage .discussion-art .image-button:focus-visible{outline:2px solid #b88c41;outline-offset:6px;border-radius:20px}
+#stage .discussion-art .image-button img{width:100%;height:auto;object-fit:contain}
+#stage.slide-enter>.media-layout,#stage.slide-enter>.body-grid,#stage.slide-enter>.concept-grid,#stage.slide-enter>.matrix-wrap,#stage.slide-enter>.discussion-box,#stage.slide-enter>.hook-card{animation:contentGlide .48s cubic-bezier(.2,.7,.2,1) both!important}
+@keyframes contentGlide{from{opacity:.25;transform:translateX(var(--dx,35px)) translateY(8px)}to{opacity:1;transform:none}}
+#stage .scenario:hover,#stage .stage-tab:hover,#stage .map-card:hover{transform:translateY(-3px)!important}
+.art-spark{position:fixed;z-index:120;width:5px;height:5px;border-radius:2px;background:#d5af65;pointer-events:none;box-shadow:0 0 6px #e8c27a77;animation:artSpark .8s ease-out forwards}
+@keyframes artSpark{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.5)}15%{opacity:1}100%{opacity:0;transform:translate(var(--spark-x),var(--spark-y)) rotate(120deg) scale(.2)}}
+.slide-thumbnail{transition:transform .35s ease,filter .35s ease}
+.overview-item:hover .slide-thumbnail{transform:scale(1.04);filter:contrast(1.04)}
+body.motion-off #stage .motion-subject,body.motion-suspended #stage .motion-subject{animation-play-state:paused!important}
+
+@media(max-width:700px),(max-width:1000px) and (orientation:portrait){
+ #stage.cover h1{font-size:50px!important;line-height:1.4}
+ #stage.cover .cover-copy{margin-top:22px}
+ #stage.cover .cover-hook{font-size:22px}
+ #stage.cover .subtitle{font-size:19px}
+ #stage.cover .course-credits{font-size:16px}
+ #stage .discussion-art .image-button{height:auto}
+ #stage .motion-subject{animation-duration:7.8s!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body:not(.export-mode) #stage.slide *,body:not(.export-mode) #stage.slide *::before,body:not(.export-mode) #stage.slide *::after{animation:none!important;transition:none!important}
+ #stage .motion-subject{transform:none!important}
+ .art-spark{display:none}
+}
+body.motion-off #stage.slide *,body.motion-off #stage.slide *::before,body.motion-off #stage.slide *::after{animation:none!important;transition:none!important}

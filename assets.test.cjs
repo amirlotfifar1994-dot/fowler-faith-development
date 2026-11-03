@@ -7,7 +7,7 @@ function loader(){
  const idle=[],requests=[],prefetch=[];
  const state={intro:false,hidden:false,fetches:0};
  const context={
-  slides:[{}, {}, {}],SLIDE_CHARACTERS:{1:'c1',2:'c2'},DECK:{thumbnails:[]},
+  slides:[{}, {}, {}],SLIDE_CHARACTERS:{1:'c1',2:'c2'},DECK:{thumbnails:[]},IMAGE_PREVIEWS:{},
   window:{requestIdleCallback:true},requestIdleCallback:fn=>idle.push(fn),
   navigator:{connection:{}},addEventListener(){},
   document:{get hidden(){return state.hidden},body:{classList:{contains:()=>state.intro}}},
@@ -37,4 +37,26 @@ test('intro defers image hydration and visible images use asynchronous lazy deco
  state.intro=true;context.assets.hydrate(root);assert.equal(requests.length,0);
  state.intro=false;context.assets.hydrate(root);
  assert.deepEqual(requests,['visible.webp']);assert.equal(image.loading,'lazy');assert.equal(image.decoding,'async');
+});
+
+test('the tiny preview stays visible until the full image has decoded',async()=>{
+ const {context,img}=loader();
+ context.IMAGE_PREVIEWS={'visible.webp':{src:'data:image/webp;base64,preview',width:100,height:200}};
+ const classes=new Set(),events={},timers=[];let preview;
+ const image=img();image.getAttribute=()=>null;
+ image.classList={add:name=>classes.add(name),remove:name=>classes.delete(name)};
+ image.addEventListener=(name,callback)=>{events[name]=callback};
+ image.parentElement={classList:{add(){}},append:node=>{preview=node}};
+ const previewClasses=new Set();
+ context.document.createElement=()=>({setAttribute(){},classList:{add:name=>previewClasses.add(name)},remove(){this.removed=true}});
+ context.setTimeout=fn=>timers.push(fn);
+ let decode;image.decode=()=>new Promise(resolve=>decode=resolve);
+ context.assets.hydrate({querySelectorAll:()=>[image],querySelector:()=>null});
+ assert.equal(preview.src,'data:image/webp;base64,preview');
+ assert.equal(image.width,100);assert.equal(image.height,200);
+ events.load();assert.equal(classes.has('asset-ready'),false);
+ decode();await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(classes.has('asset-ready'),true);
+ assert.equal(previewClasses.has('preview-retired'),true);
+ timers.forEach(fn=>fn());assert.equal(preview.removed,true);
 });
