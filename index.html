@@ -146,10 +146,26 @@ body:not(.export-mode) .immersive-slide.image-only::before { opacity:.35; }
  body:not(.export-mode) .immersive-slide.image-only:has(.immersive-toggle:hover) .text-card { visibility:visible; }
  body:not(.export-mode) .immersive-slide.image-only:has(.immersive-toggle:hover)::before { opacity:1; }
 }
+
+body:not(.export-mode) .topbar,
+body:not(.export-mode) .bottom { display:none; }
+body:not(.export-mode) #main { height:calc(100dvh - 6px); }
+.deck-viewport > .navigation {
+ position:absolute; z-index:8; inset-inline:0; bottom:6px; width:max-content;
+ margin-inline:auto; padding:4px; border-radius:14px;
+ background:#09252aee; color:#f2ffff; box-shadow:0 4px 14px #0003;
+}
+.deck-viewport > .navigation button { min-height:40px; }
+.deck-viewport > .navigation #counter { color:#f2ffff; }
+.export-mode .deck-viewport > .navigation { display:none; }
+@media (max-width:700px) {
+ body:not(.export-mode) #main { padding-bottom:58px; }
+ .deck-viewport > .navigation { bottom:-48px; }
+}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
-<main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div></div></main>
-<footer class="bottom"><div class="chapter" id="chapter"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div><button id="download-button">دریافت‌ها</button></footer><div class="progress-track"><div id="progress"></div></div>
+<main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
+<footer class="bottom"><div class="chapter" id="chapter"></div><button id="download-button">دریافت‌ها</button></footer><div class="progress-track"><div id="progress"></div></div>
 <dialog id="overview"><div class="dialog-head"><div><small>نقشهٔ ارائه</small><h2>فهرست اسلایدها</h2></div><button data-close aria-label="بستن فهرست">بستن ×</button></div><label for="slide-search" class="sr-only">جست‌وجوی اسلاید</label><input id="slide-search" type="search" placeholder="عنوان یا بخشی از متن را پیدا کنید…"><div class="filters" id="filters"></div><div class="overview-grid" id="overview-grid"></div></dialog>
 <dialog id="reader"><div class="dialog-head"><div><small>پروندهٔ علمی</small><h2>متن کامل و منابع</h2></div><button data-close aria-label="بستن متن کامل">بستن ×</button></div><div id="reader-content"></div></dialog>
 <dialog id="downloads"><div class="dialog-head"><h2>نسخه‌های همراه</h2><button data-close>بستن ×</button></div><div class="download-grid"><a class="download-card" href="conference.html" target="_blank"><strong>متن کامل HTML</strong><span>مطالعه و چاپ با همهٔ منابع</span></a><a class="download-card" href="slide-images.zip" download><strong>عکس تمام اسلایدها</strong><span>تصاویر کامل PNG با اندازهٔ ۱۹۲۰ × ۱۰۸۰</span></a><a class="download-card" href="fowler-conference.pptx" download><strong>نسخهٔ پاورپوینت</strong><span>اسلایدهای تصویری با یادداشت متنی</span></a><a class="download-card" href="conference.md" download><strong>متن قابل ویرایش</strong><span>نسخهٔ Markdown پژوهش</span></a></div><p class="download-note">تعامل‌ها و انیمیشن‌ها در نسخهٔ وب اجرا می‌شوند. پاورپوینت و عکس‌ها، نمای ثابت اسلایدها را نگه می‌دارند.</p><button id="print-button">چاپ همهٔ اسلایدها / ذخیره PDF</button><a class="render-gallery-link" href="render-gallery.html" target="_blank">گالری رندر کاملِ همهٔ اسلایدها</a></dialog>
