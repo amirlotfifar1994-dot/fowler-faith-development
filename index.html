@@ -428,6 +428,99 @@ body.autoplay .char img,body.autoplay .char-img{animation-duration:3.5s}
 .concept-card strong{font-weight:700;background:linear-gradient(135deg,#0f3a31,#2f6b5e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .concept-note{line-height:2.1;font-size:21px;text-wrap:pretty;color:#4a5f56;border-inline-start:4px solid #e8c27a;padding-inline-start:18px}
 .slide-table td{line-height:2}
+
+/* ================= per-slide scenes: entrances, idle motion, props ================= */
+.char,.char-panel{--ease:cubic-bezier(.16,1,.3,1)}
+#stage.fx-in .char img,#stage.fx-in .char-img{animation-fill-mode:backwards}
+/* entrances (on the image so they never clash with the slide-level rise) */
+[data-enter=walk] img{animation:enWalk 1.3s var(--ease) backwards,var(--idle,bob) 6.5s 1.3s ease-in-out infinite}
+[data-enter=rise] img{animation:enRise 1.2s var(--ease) backwards,var(--idle,bob) 6.5s 1.2s ease-in-out infinite}
+[data-enter=pop] img{animation:enPop 1s cubic-bezier(.3,1.6,.5,1) backwards,var(--idle,bob) 6.5s 1s ease-in-out infinite}
+[data-enter=drop] img{animation:enDrop 1.1s cubic-bezier(.3,1.5,.5,1) backwards,var(--idle,bob) 6.5s 1.1s ease-in-out infinite}
+[data-enter=hop] img{animation:enHop 1.2s cubic-bezier(.3,1.7,.5,1) backwards,var(--idle,bob) 6.5s 1.2s ease-in-out infinite}
+.char img.m-sway,.char-img.m-sway{--idle:sway}.char img.m-breathe,.char-img.m-breathe{--idle:breathe}.char img.m-hop,.char-img.m-hop{--idle:hop}.char img.m-bob,.char-img.m-bob{--idle:bob}
+@keyframes enWalk{from{opacity:0;transform:translateX(-260px) skewX(-6deg)}60%{transform:translateX(18px) skewX(2deg)}}
+@keyframes enRise{from{opacity:0;transform:translateY(120px) scale(.9)}}
+@keyframes enPop{from{opacity:0;transform:scale(.3) rotate(-8deg)}}
+@keyframes enDrop{from{opacity:0;transform:translateY(-200px) scaleY(1.15)}60%{transform:translateY(8px) scaleY(.94)}}
+@keyframes enHop{from{opacity:0;transform:translateY(160px) scale(.7)}50%{transform:translateY(-40px) scale(1.04)}}
+/* idle motions pivot at the feet */
+.char img,.char-img{transform-origin:50% 100%}
+@keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg) translateY(-6px)}}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.028)}}
+@keyframes hop{0%,40%,100%{transform:translateY(0)}20%{transform:translateY(-26px) rotate(-1.5deg)}60%{transform:translateY(-10px) rotate(1deg)}}
+/* floating props */
+.prop{position:absolute;left:var(--x);top:var(--y);font-style:normal;font-size:var(--s);line-height:1;color:#c0603f;opacity:0;pointer-events:none;z-index:2;text-shadow:0 4px 14px #e8c27a88;animation:propFloat 5.5s var(--d) ease-in-out infinite}
+.prop:nth-of-type(2n){color:#d9a441}.prop:nth-of-type(3n){color:#2f6b5e}
+.char-panel,.char{--pc:1}
+@keyframes propFloat{0%{opacity:0;transform:translateY(24px) scale(.5) rotate(-20deg)}20%{opacity:.95}70%{opacity:.8}100%{opacity:0;transform:translateY(-70px) scale(1.15) rotate(20deg)}}
+.cover>.char .prop{color:#f3d28f}
+/* depth shapes */
+.deco{position:absolute;z-index:0;border-radius:50%;pointer-events:none;translate:calc(var(--px,0)*var(--k,30px)) calc(var(--py,0)*var(--k,30px));transition:translate .6s cubic-bezier(.2,.8,.2,1)}
+.deco.d0{width:520px;height:520px;right:-140px;top:-160px;--k:-40px;background:radial-gradient(circle,#2f6b5e22,transparent 68%);animation:decoA 20s ease-in-out infinite alternate}
+.deco.d1{width:380px;height:380px;left:20%;bottom:-170px;--k:26px;background:radial-gradient(circle,#c0603f22,transparent 68%);animation:decoA 26s -6s ease-in-out infinite alternate}
+.deco.d2{width:200px;height:200px;right:30%;top:38%;--k:-18px;border:2px dashed #b8873b33;animation:spin 70s linear infinite}
+@keyframes decoA{to{transform:scale(1.25) translate(30px,20px)}}
+.cover .deco{display:none}
+/* the real photo of Fowler */
+.photo-panel .image-button{position:relative;overflow:hidden;border-radius:28px;box-shadow:0 36px 70px -30px #0f3a31,0 0 0 6px #fffaf0,0 0 0 7px #e8c27a99}
+.photo-panel img{animation:kb 18s ease-in-out infinite alternate;transform-origin:50% 30%}
+@keyframes kb{to{transform:scale(1.09)}}
+.photo-panel .image-button::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#ffffff55 50%,transparent 65%);transform:translateX(130%);animation:photoShine 6s 1.5s infinite}
+@keyframes photoShine{40%,100%{transform:translateX(-130%)}}
+@media(prefers-reduced-motion:reduce){.prop,.deco,.photo-panel img,.photo-panel .image-button::after{animation:none!important}.prop{opacity:.5}[data-enter] img{animation:none!important}}
+body.motion-off .prop,body.motion-off .deco,body.motion-off .photo-panel img{animation:none!important}
+body.motion-off [data-enter] img{animation:none!important}
+body.export-mode .prop,body.export-mode .deco{display:none}
+
+/* ================= professional system layer ================= */
+:root{--r-sm:12px;--r-md:20px;--r-lg:28px;--sh-1:0 1px 2px #0f3a3114,0 4px 12px -4px #0f3a3118;--sh-2:0 2px 4px #0f3a3112,0 14px 30px -12px #0f3a3135;--sh-3:0 30px 70px -28px #0f3a3175;--ease:cubic-bezier(.2,.8,.2,1)}
+*{scrollbar-width:thin;scrollbar-color:#b8873b66 transparent}
+::selection{background:#e8c27acc;color:#1b1406}
+button,.btn,a{transition-timing-function:var(--ease)}
+button:focus-visible,a:focus-visible{outline:2px solid #e8c27a;outline-offset:3px;box-shadow:0 0 0 6px #e8c27a33}
+.topbar{height:76px!important;padding:0 clamp(16px,3.5vw,56px)!important;box-shadow:0 1px 0 #ffffff0d inset,0 14px 36px -24px #000}
+.brand{font-size:17px;letter-spacing:-.2px}
+.brand-symbol{border-radius:14px!important;width:44px!important;height:44px!important;font-size:25px!important}
+.top-actions{gap:8px!important}
+.top-actions button{font-size:12.5px!important;letter-spacing:.1px;padding:7px 16px!important}
+.top-actions #help-button{width:34px;height:34px;padding:0!important;display:grid;place-items:center}
+.slide{border-radius:32px!important}
+.slide-top{font-size:15px!important;letter-spacing:.2px;font-weight:500}
+.section-label{text-transform:none;padding:6px 16px;border-radius:100px;background:#0f3a310d;border:1px solid #0f3a3115}
+.section-label:before{width:8px!important;height:8px!important;border-radius:50%;background:linear-gradient(135deg,#c0603f,#e8c27a)!important;box-shadow:0 0 0 4px #e8c27a33}
+.slide-number{box-shadow:var(--sh-1);font-weight:700;letter-spacing:.5px}
+.slide-foot{border-top:1px solid #0f3a3118!important;font-size:15px!important}
+.notes-button{box-shadow:var(--sh-1);font-weight:500}
+.text-card:not(.hook-card){box-shadow:var(--sh-2)!important;border-radius:var(--r-md)!important}
+.map-card,.concept-card,.scenario,.stage-panel,.stage-tab{border-radius:var(--r-md)!important;box-shadow:var(--sh-1)}
+.map-card{border:1px solid #0f3a3112!important}
+.matrix .scenario{border:1px solid #0f3a3112}
+.stage-tab b{font-size:34px}
+.hook-card{border-radius:var(--r-lg)!important}
+.navigation{box-shadow:var(--sh-3),0 0 0 1px #ffffff12 inset!important}
+.navigation button{font-size:13.5px!important;font-weight:500;letter-spacing:.1px}
+.bottom{height:72px!important}
+dialog{background:linear-gradient(160deg,#fffaf0,#f6ead3)!important;border:0!important}
+dialog .dialog-head{border-bottom:1px solid #0f3a3115;padding-bottom:16px;margin-bottom:20px}
+dialog .dialog-head h2{font-size:26px;background:linear-gradient(260deg,#0f3a31,#2f6b5e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+dialog [data-close]{border-radius:100px;padding:7px 18px;background:#0f3a310d}
+dialog [data-close]:hover{background:#c0603f;color:#fff;border-color:transparent}
+.overview-grid .overview-item{border-radius:var(--r-md)!important;box-shadow:var(--sh-1);border:1px solid #0f3a3112!important}
+.overview-grid .overview-item:hover{box-shadow:var(--sh-2);transform:translateY(-5px)}
+.overview-grid .overview-item.current{outline:2px solid #c0603f!important}
+.download-card{border-radius:var(--r-md)!important;box-shadow:var(--sh-1)}
+.download-card:hover{box-shadow:var(--sh-2);transform:translateY(-3px)}
+.filters button{border-radius:100px}
+.filters button[aria-pressed=true]{background:linear-gradient(135deg,#0f3a31,#2f6b5e);color:#fff;border-color:transparent}
+input[type=search],select{border-radius:100px!important}
+
+#stage.char-slide .char-panel[data-enter=walk] .char-img{animation:enWalk 1.3s var(--ease) backwards,var(--idle,bob) 6.5s 1.3s ease-in-out infinite}
+#stage.char-slide .char-panel[data-enter=rise] .char-img{animation:enRise 1.2s var(--ease) backwards,var(--idle,bob) 6.5s 1.2s ease-in-out infinite}
+#stage.char-slide .char-panel[data-enter=pop] .char-img{animation:enPop 1s cubic-bezier(.3,1.6,.5,1) backwards,var(--idle,bob) 6.5s 1s ease-in-out infinite}
+#stage.char-slide .char-panel[data-enter=drop] .char-img{animation:enDrop 1.1s cubic-bezier(.3,1.5,.5,1) backwards,var(--idle,bob) 6.5s 1.1s ease-in-out infinite}
+#stage.char-slide .char-panel[data-enter=hop] .char-img{animation:enHop 1.2s cubic-bezier(.3,1.7,.5,1) backwards,var(--idle,bob) 6.5s 1.2s ease-in-out infinite}
+
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -900,15 +993,47 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
    if(img){img.src=url;img.alt='شخصیت تصویری همراه این بخش';img.className='char-img c-'+id}
    if(btn)btn.dataset.image=url;
    const cap=panel.querySelector('figcaption');if(cap)cap.textContent='تصویرسازی شخصیت‌ها';
+   const pm=PERSONA[id]||PERSONA.c4;
+   panel.dataset.enter=pm.enter;img.classList.add(pm.idle);
+   addProps(panel,pm);
    return;
   }
+  if(slide.visual==='james-fowler-emory'&&panel)panel.classList.add('photo-panel');
   if(slide.type==='cover'||slide.type==='content'&&!slide.visual){
    const f=document.createElement('figure');
+   const pm=PERSONA[id]||PERSONA.c4;
    f.className='char '+(slide.type==='cover'?'char-cover':'char-float')+' c-'+id;
+   f.dataset.enter=pm.enter;
    f.setAttribute('aria-hidden','true');
-   const im=new Image();im.src=url;im.alt='';im.onerror=()=>f.remove();
-   f.append(im);stageEl.append(f);
+   const im=new Image();im.src=url;im.alt='';im.className=pm.idle;im.onerror=()=>f.remove();
+   f.append(im);addProps(f,pm);stageEl.append(f);
   }
+  addDeco();
+ }
+ /* each character has its own entrance, idle motion and floating props */
+ const PERSONA={
+  c1:{enter:'walk',idle:'m-sway',props:['✦','➤','✦','◎']},
+  c2:{enter:'rise',idle:'m-breathe',props:['✦','✎','✦','❝']},
+  c3:{enter:'pop',idle:'m-sway',props:['❝','…','❞','✦']},
+  c4:{enter:'drop',idle:'m-bob',props:['?','✦','?','!']},
+  c5:{enter:'hop',idle:'m-hop',props:['★','✦','★','✧']},
+  c6:{enter:'walk',idle:'m-sway',props:['♥','✦','♥','✧']},
+  c7:{enter:'pop',idle:'m-breathe',props:['❝','…','✦','❞']},
+  c8:{enter:'rise',idle:'m-breathe',props:['♥','✦','☾','♥']},
+  c10:{enter:'drop',idle:'m-bob',props:['?','✎','?','✦']}
+ };
+ function addProps(host,pm){
+  pm.props.forEach((g,i)=>{
+   const p=document.createElement('i');p.className='prop';p.textContent=g;p.setAttribute('aria-hidden','true');
+   p.style.setProperty('--x',[6,78,-4,88][i%4]+'%');p.style.setProperty('--y',[10,0,48,40][i%4]+'%');
+   p.style.setProperty('--d',(i*1.1)+'s');p.style.setProperty('--s',(18+((i*7)%14))+'px');
+   host.append(p);
+  });
+ }
+ /* soft drifting shapes behind every slide, shifted by the pointer for depth */
+ function addDeco(){
+  if(stageEl.querySelector('.deco'))return;
+  for(let i=0;i<3;i++){const d=document.createElement('i');d.className='deco d'+i;d.setAttribute('aria-hidden','true');stageEl.prepend(d)}
  }
  stageEl.addEventListener('pointermove',e=>{
   const r=stageEl.getBoundingClientRect();
