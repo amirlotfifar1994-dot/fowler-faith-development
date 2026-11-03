@@ -393,6 +393,16 @@ body.motion-off .char img,body.motion-off .char::before,body.motion-off .char-im
 body.export-mode .char{display:none}
 #stage.char-slide .char-img,#stage .char img{background:none!important;border:0!important;border-radius:0!important}
 #stage.cover>.char.char-cover{position:absolute!important;width:auto;left:5%;bottom:56px;height:640px}
+
+/* autoplay button */
+#auto-button{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#c0603f,#e8a070)!important;color:#fff!important;border-color:transparent!important;font-weight:700}
+#auto-button .auto-ico{font-style:normal;font-size:11px}
+#auto-button .auto-bar{position:absolute;right:0;bottom:0;height:3px;width:0;background:#fff;opacity:.85}
+#auto-button.run .auto-bar{animation:autoFill var(--dur,5s) linear forwards}
+@keyframes autoFill{to{width:100%}}
+#auto-button.on{box-shadow:0 0 0 0 #c0603f99;animation:autoPulse 2s infinite}
+@keyframes autoPulse{70%{box-shadow:0 0 0 12px #c0603f00}}
+body.autoplay .char img,body.autoplay .char-img{animation-duration:3.5s}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -898,5 +908,43 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  if(typeof window.__currentSlide==='number')decorate(window.__currentSlide);
  /* the cover is first rendered before this script runs; replay its entrance once */
  requestAnimationFrame(()=>{if(motionOn()&&!stageEl.classList.contains('fx-in')){stageEl.classList.add('fx-in');setTimeout(()=>stageEl.classList.remove('fx-in'),1800)}});
+})();
+
+/* ---------- automatic playback ---------- */
+(()=>{
+ if(document.body.classList.contains('export-mode'))return;
+ const bar=document.querySelector('.top-actions');if(!bar)return;
+ const btn=document.createElement('button');btn.id='auto-button';btn.type='button';btn.setAttribute('aria-pressed','false');
+ btn.innerHTML='<i class="auto-ico">▶</i><span>پخش خودکار</span><b class="auto-bar"></b>';
+ bar.prepend(btn);
+ let on=false,timer=0,sub=0;
+ const dwell=n=>n*1000;
+ function fire(){if(window.deckBurst){const r=btn.getBoundingClientRect();window.deckBurst(r.left+r.width/2,r.bottom,10)}}
+ function schedule(ms){
+  clearTimeout(timer);btn.style.setProperty('--dur',ms+'ms');btn.classList.remove('run');void btn.offsetWidth;btn.classList.add('run');
+  timer=setTimeout(step,ms);
+ }
+ function step(){
+  if(!on)return;
+  if(document.querySelector('dialog[open]')||document.hidden){schedule(2000);return}
+  const st=document.getElementById('stage');
+  const adv=st.querySelector('.story-advance:not(.story-back)');
+  if(adv&&adv.textContent.trim()!=='بازگشت به پرسش'){adv.click();schedule(dwell(6));return}
+  const sc=[...st.querySelectorAll('[data-scenario]')];
+  if(sc.length&&sub<sc.length){sc[sub++].click();schedule(dwell(4.5));return}
+  const rs=[...st.querySelectorAll('[data-response]')];
+  if(rs.length&&sub<rs.length){rs[sub++].click();schedule(dwell(5));return}
+  sub=0;
+  const next=document.getElementById('next');
+  if(next.disabled){stop();return}
+  next.click();fire();
+  schedule(dwell(5.5));
+ }
+ function start(){on=true;sub=0;btn.setAttribute('aria-pressed','true');btn.classList.add('on');btn.querySelector('span').textContent='توقف پخش';btn.querySelector('.auto-ico').textContent='❚❚';document.body.classList.add('autoplay');schedule(dwell(4))}
+ function stop(){on=false;clearTimeout(timer);btn.setAttribute('aria-pressed','false');btn.classList.remove('on','run');btn.querySelector('span').textContent='پخش خودکار';btn.querySelector('.auto-ico').textContent='▶';document.body.classList.remove('autoplay')}
+ btn.addEventListener('click',()=>on?stop():start());
+ document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea'))return;if(e.key.toLowerCase()==='p'&&!e.ctrlKey&&!e.metaKey&&!document.querySelector('dialog[open]'))on?stop():start();else if(on&&e.key==='Escape')stop()});
+ document.querySelector('.navigation')?.addEventListener('click',()=>{if(on){sub=0;schedule(dwell(5.5))}});
+ window.addEventListener('deck:slide',()=>{sub=0});
 })();
 </script></body></html>
