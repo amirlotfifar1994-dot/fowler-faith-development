@@ -209,6 +209,31 @@ sup.ref{font-size:.68em;vertical-align:.35em;line-height:0;padding:1px 7px;borde
 #content strong{background:linear-gradient(transparent 58%,#e2b76550 58%)}
 .callout{font-size:1.1em;line-height:2.3;font-weight:500}
 .callout strong{background:none;color:var(--accent)}
+
+/* ================= premium frames, backgrounds and cards ================= */
+:root{--pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%23b8873b' stroke-width='1'%3E%3Cpath d='M44 6l8 22 22-8-8 22 16 8-16 8 8 22-22-8-8 22-8-22-22 8 8-22-16-8 16-8-8-22 22 8z' stroke-opacity='.55'/%3E%3Ccircle cx='44' cy='44' r='10' stroke-opacity='.45'/%3E%3C/g%3E%3C/svg%3E")}
+body{background-image:var(--pat);background-size:88px;background-blend-mode:multiply}
+body.dark{background-blend-mode:screen}
+.paper{border:1px solid transparent;background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(160deg,var(--gold-2),transparent 30%,transparent 70%,var(--terra)) border-box;box-shadow:var(--shadow),0 0 0 8px color-mix(in srgb,var(--paper) 55%,transparent)}
+.paper::after{content:'';position:absolute;inset:14px;border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:22px;pointer-events:none}
+.sidebar{border:1px solid transparent;background:linear-gradient(color-mix(in srgb,var(--paper) 90%,transparent),color-mix(in srgb,var(--paper) 90%,transparent)) padding-box,linear-gradient(160deg,var(--gold-2),transparent 40%,var(--accent-2)) border-box}
+.hero{box-shadow:var(--shadow),0 0 0 1px #e2b76599,0 0 0 8px var(--bg),0 0 0 9px #e2b76555}
+.hero::before{content:'';position:absolute;inset:16px;border:1px solid #e2b7654d;border-radius:24px;pointer-events:none;z-index:0}
+#content h2{border-bottom:0;padding-bottom:26px}
+#content h2::after{height:2px;width:100%;background:linear-gradient(270deg,var(--gold-2),var(--line) 40%,transparent);}
+#content h2.in::after{width:100%}
+#content h2::before{display:inline-flex;align-items:center;gap:10px;font-size:.5em}
+#content h2:not(:first-child){margin-top:96px}
+.callout{border:1px solid transparent;background:linear-gradient(var(--paper-2),var(--paper-2)) padding-box,linear-gradient(135deg,var(--gold-2),transparent 50%,var(--accent-2)) border-box;box-shadow:0 18px 40px -26px #0f3a3160}
+.table-wrap{border:1px solid transparent;background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(135deg,var(--gold-2),var(--line) 50%,var(--accent-2)) border-box;box-shadow:0 22px 44px -28px #0f3a3170}
+th{background:var(--pat) center/60px,linear-gradient(135deg,var(--forest),#14594a);background-blend-mode:soft-light,normal}
+h3.stage{border:1px solid transparent;background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(270deg,var(--gold-2),var(--line) 60%) border-box;box-shadow:0 14px 30px -22px #0f3a3160}
+.toolbar{box-shadow:0 1px 0 color-mix(in srgb,var(--gold-2) 40%,transparent),0 18px 40px -30px #000}
+.footer::before{content:'✦ ✦ ✦';display:block;color:var(--gold);letter-spacing:10px;margin-bottom:12px}
+@media print{.paper::after,.hero::before{display:none}body{background-image:none}}
+#content h2::before{display:block!important}
+body{background-image:linear-gradient(#f4f0e4ee,#f4f0e4ee),var(--pat);background-blend-mode:normal}
+body.dark{background-image:linear-gradient(#0b1a17ee,#0b1a17ee),var(--pat);background-blend-mode:normal}
 </style></head>
 <body id="top"><a class="skip" href="#main">رفتن به متن کنفرانس</a><div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div><div class="grain" aria-hidden="true"></div><div class="progress" id="progress" aria-hidden="true"></div>
 <header class="toolbar"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی · پروندهٔ کنفرانس</small></span></a><div class="actions"><a class="btn" href="index.html" title="ارائهٔ تعاملی">🎞 <span>ارائهٔ تعاملی</span></a><button class="btn icon" id="theme" type="button" aria-pressed="false">◐ <span>حالت شب</span></button><button class="btn icon" id="print" type="button">⎙ <span>چاپ / PDF</span></button><a class="btn icon" href="کنفرانس-تحول-ایمان-فاولر.md" download>⇩ <span>Markdown</span></a></div></header>
