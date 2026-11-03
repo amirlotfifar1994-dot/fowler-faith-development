@@ -50,6 +50,16 @@ body.projector-mode { background: #e5edf5; color: #101d31; }
  .bottom .chapter { display: none; }
  .navigation { gap: 7px; }
 }
+
+.navigation #next::after { content: ' ←'; }
+.navigation #previous::before { content: '→ '; }
+.navigation #counter { white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+ .navigation { padding: 4px; border-radius: 15px; background: #123d3510; }
+ .navigation button { border-radius: 12px; }
+ .navigation #next { box-shadow: 0 3px 9px #123d352b; }
+ .projector-mode .navigation #counter { color: #fff; }
+}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div></div></main>
