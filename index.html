@@ -403,6 +403,31 @@ body.export-mode .char{display:none}
 #auto-button.on{box-shadow:0 0 0 0 #c0603f99;animation:autoPulse 2s infinite}
 @keyframes autoPulse{70%{box-shadow:0 0 0 12px #c0603f00}}
 body.autoplay .char img,body.autoplay .char-img{animation-duration:3.5s}
+
+/* ---------- typography ---------- */
+.slide{font-feature-settings:"kern","liga";text-rendering:optimizeLegibility;letter-spacing:0}
+.slide h2{text-wrap:balance;line-height:1.55;font-weight:700}
+.text-card p,.hook-card p,.discussion-box,.scenario-detail p,.concept-card p,.stage-panel p{text-wrap:pretty;hyphens:none;word-spacing:.04em}
+.text-card:not(.hook-card){border-inline-start:5px solid #c0603f!important}
+.text-card:not(.hook-card):nth-child(2n){border-inline-start-color:#e8c27a!important}
+.text-card:not(.hook-card):nth-child(3n){border-inline-start-color:#2f6b5e!important}
+.text-card:not(.hook-card) p{line-height:2.15;font-size:1.02em;color:#1d3a33}
+.text-card p::first-line{font-weight:500}
+.text-card strong,.key-term{font-weight:700;color:#0f3a31;background:linear-gradient(transparent 60%,#e8c27a66 60%);padding:0 3px;border-radius:3px;box-shadow:none}
+.key-term:hover{background:linear-gradient(transparent 40%,#e8c27a99 40%)!important}
+.text-card em{color:#a2492d;font-style:normal;font-weight:500}
+.text-card.english{font-size:20px;letter-spacing:.3px;color:#8a6a2c;border-inline-start:0!important}
+.reference-trigger{background:linear-gradient(135deg,#c0603f,#e8a070)!important;color:#fff!important;border:0!important;border-radius:100px!important;padding:0 8px!important;font-weight:700;box-shadow:0 3px 8px -3px #c0603f;transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.reference-trigger:hover{transform:translateY(-2px) scale(1.12)}
+.hook-card p{font-weight:700!important;line-height:1.75!important;text-shadow:0 2px 18px #0006;text-wrap:balance}
+.hook-card::after{content:'❝';position:absolute;right:22px;top:-14px;font:700 120px/1 Georgia,serif;color:#e8c27a;opacity:.22;pointer-events:none}
+.interactive-hook,.cover-hook{color:#a2492d;font-weight:700}
+.cover .cover-hook{color:#f3d28f}
+.slide-foot{font-size:16px}
+.card-index{font-size:15px!important}
+.concept-card strong{font-weight:700;background:linear-gradient(135deg,#0f3a31,#2f6b5e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.concept-note{line-height:2.1;font-size:21px;text-wrap:pretty;color:#4a5f56;border-inline-start:4px solid #e8c27a;padding-inline-start:18px}
+.slide-table td{line-height:2}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>

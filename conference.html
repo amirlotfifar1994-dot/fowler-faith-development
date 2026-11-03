@@ -197,6 +197,18 @@ html.js .rv.in{opacity:1;transform:none;filter:none}
 .aurora i:nth-child(2){background:radial-gradient(circle,#c0603f33,transparent 65%)}
 h2::after{background:linear-gradient(270deg,var(--terra),var(--gold-2))}
 li::before{background:linear-gradient(135deg,var(--terra),var(--gold-2))}
+
+/* typography */
+body{font-feature-settings:"kern","liga";text-rendering:optimizeLegibility}
+#content{font-size:1.06em}
+#content p,#content li{line-height:2.3;text-wrap:pretty;color:var(--ink)}
+#content h2,#content h3{text-wrap:balance}
+#content h2+p:not(.english-term):not(.callout),#content h2+.char-float+p:not(.english-term):not(.callout){font-size:1.14em;color:var(--ink-2);line-height:2.25}
+sup.ref{font-size:.68em;vertical-align:.35em;line-height:0;padding:1px 7px;border-radius:100px;background:linear-gradient(135deg,var(--terra),#e8a070);color:#fff;font-weight:700;white-space:nowrap;cursor:help;margin:0 2px;box-shadow:0 3px 8px -3px var(--terra)}
+#content p>em,#content li>em{color:var(--terra);font-style:normal;font-weight:500}
+#content strong{background:linear-gradient(transparent 58%,#e2b76550 58%)}
+.callout{font-size:1.1em;line-height:2.3;font-weight:500}
+.callout strong{background:none;color:var(--accent)}
 </style></head>
 <body id="top"><a class="skip" href="#main">رفتن به متن کنفرانس</a><div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div><div class="grain" aria-hidden="true"></div><div class="progress" id="progress" aria-hidden="true"></div>
 <header class="toolbar"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی · پروندهٔ کنفرانس</small></span></a><div class="actions"><a class="btn" href="index.html" title="ارائهٔ تعاملی">🎞 <span>ارائهٔ تعاملی</span></a><button class="btn icon" id="theme" type="button" aria-pressed="false">◐ <span>حالت شب</span></button><button class="btn icon" id="print" type="button">⎙ <span>چاپ / PDF</span></button><a class="btn icon" href="کنفرانس-تحول-ایمان-فاولر.md" download>⇩ <span>Markdown</span></a></div></header>
@@ -299,4 +311,10 @@ $$('h2',content).forEach(h=>{
 });
 addEventListener('scroll',()=>{$$('.char-float img').forEach(im=>{const r=im.getBoundingClientRect();im.style.setProperty('--par',((r.top+r.height/2-innerHeight/2)*-.06).toFixed(1)+'px')})},{passive:true});
 hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();hero.style.setProperty('--cx2',((e.clientX-r.left)/r.width-.5).toFixed(2));hero.style.setProperty('--cy2',((e.clientY-r.top)/r.height-.5).toFixed(2))});
+
+/* reference markers like [۱، ۲] become small pills */
+(()=>{const re=/\[([۰-۹0-9][۰-۹0-9،,\s\-–]*)\]/g;const w=document.createTreeWalker(content,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+ for(const n of nodes){if(n.parentElement.closest('a,.anchor,.badge,sup')||!re.test(n.nodeValue)){re.lastIndex=0;continue}re.lastIndex=0;
+  const frag=document.createDocumentFragment();let pos=0,m;while((m=re.exec(n.nodeValue))){frag.append(document.createTextNode(n.nodeValue.slice(pos,m.index)));const s=document.createElement('sup');s.className='ref';s.textContent=m[1].trim();s.title='ارجاع به منابع: '+m[1].trim();frag.append(s);pos=m.index+m[0].length}
+  frag.append(document.createTextNode(n.nodeValue.slice(pos)));n.replaceWith(frag)}})();
 </script></body></html>
