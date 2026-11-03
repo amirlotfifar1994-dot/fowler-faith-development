@@ -648,6 +648,53 @@ body.intro-on{overflow:hidden}
 @media(max-width:700px){.in-char{display:none}}
 
 body.export-mode #intro,body.export-mode #intro-button{display:none}
+
+/* ================= interactive scene props ================= */
+.sprop{position:absolute;z-index:4;pointer-events:auto;cursor:pointer;user-select:none;-webkit-user-select:none}
+.sprop img{width:100%;height:auto;display:block;filter:drop-shadow(0 22px 20px #0f3a3166);pointer-events:none;-webkit-user-drag:none}
+.sc-hint{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);white-space:nowrap;font-size:15px;padding:3px 14px;border-radius:100px;background:#fffdf6e6;color:#6b5a38;box-shadow:0 0 0 1px #e8c27a88;opacity:.9}
+.sprop:hover .sc-hint{opacity:1;background:#fffdf6}
+#stage .sprop{animation:propIn .9s cubic-bezier(.3,1.5,.5,1) .5s backwards}
+@keyframes propIn{from{opacity:0;transform:translateY(60px) scale(.6) rotate(-12deg)}}
+.sc-compass{right:100px;bottom:230px;width:220px}
+.sc-compass.matrix{right:70px;bottom:104px;width:140px}
+.sc-compass img{transform-origin:46% 52%;will-change:transform}
+.sc-compass .sc-hint{bottom:-26px}
+.sc-sprout{right:120px;bottom:250px;width:230px}
+.sc-sprout img{transform-origin:50% 100%;transition:transform .7s cubic-bezier(.3,1.7,.5,1)}
+.sc-sprout img.wig{animation:wig .8s ease}
+@keyframes wig{20%{rotate:-5deg}45%{rotate:4deg}70%{rotate:-2deg}}
+.sp-dots{position:absolute;left:50%;top:-18px;transform:translateX(-50%);display:flex;gap:7px}
+.sp-dots i{width:12px;height:12px;border-radius:50%;background:#0f3a3120;box-shadow:0 0 0 1px #2f6b5e55;transition:.35s}
+.sp-dots i.on{background:linear-gradient(135deg,#7fd1ae,#2f9a78);box-shadow:0 0 12px #2f9a78;transform:scale(1.2)}
+.drop{position:absolute;top:-6%;width:9px;height:14px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:linear-gradient(#bfe9ff,#4aa8e0);opacity:0;animation:drop 1s ease-in forwards;pointer-events:none}
+@keyframes drop{from{opacity:1;transform:translateY(0)}to{opacity:.9;transform:translateY(190px)}}
+.sc-book{right:60px;bottom:215px;width:380px;perspective:900px}
+.sc-book img{transition:transform .25s ease-out;transform-style:preserve-3d}
+.word{position:absolute;top:28%;transform:translateX(-50%);font-weight:700;font-size:var(--s,26px);color:#a2492d;text-shadow:0 0 14px #e8c27a,0 2px 0 #fffdf6;pointer-events:none;animation:wordUp 3s ease-out forwards;white-space:nowrap}
+@keyframes wordUp{from{opacity:0;transform:translate(-50%,0) scale(.5)}15%{opacity:1}to{opacity:0;transform:translate(calc(-50% + var(--dx)),-240px) rotate(var(--r)) scale(1.15)}}
+.sprop .bubble{top:-14px}
+.sc-puzzle{width:150px;touch-action:none;cursor:grab;animation:pzBob 4s calc(var(--i)*.6s) ease-in-out infinite!important;transition:left .6s cubic-bezier(.3,1.5,.5,1),top .6s cubic-bezier(.3,1.5,.5,1),transform .3s}
+@keyframes pzBob{50%{transform:translateY(-10px) rotate(3deg)}}
+.sc-puzzle.dragging{cursor:grabbing;z-index:9;animation:none!important;transform:scale(1.12) rotate(-4deg)}
+.sc-puzzle.dragging img{filter:drop-shadow(0 30px 24px #0f3a3188)!important}
+.sc-puzzle.placed{width:120px;cursor:default;animation:pzPlace .7s cubic-bezier(.3,1.7,.5,1)!important}
+@keyframes pzPlace{40%{transform:scale(1.3) rotate(8deg)}}
+.sc-puzzle.shake{animation:shake .45s!important}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.pz-l{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:21px;color:#fff;text-shadow:0 2px 6px #000a;pointer-events:none;padding-top:6px}
+.placed .pz-l{font-size:17px}
+.pz-hint{position:absolute;left:50%;bottom:112px;transform:translateX(-50%);z-index:4;padding:8px 22px;border-radius:100px;background:#fffdf6;color:#6b5a38;font-size:18px;box-shadow:0 0 0 1px #e8c27acc,0 12px 24px -12px #0f3a3188;white-space:nowrap;animation:fxRise .8s .6s backwards}
+.pz-hint.win{background:linear-gradient(135deg,#0f3a31,#2f6b5e);color:#f3d28f;font-weight:700}
+.concept-card{transition:box-shadow .4s,transform .4s}
+.concept-card.linked{box-shadow:0 0 0 3px #e8c27a,0 20px 50px -10px #e8c27a99!important;transform:translateY(-8px)}
+@media(prefers-reduced-motion:reduce){.sc-puzzle,#stage .sprop,.word{animation:none!important}}
+body.export-mode .sprop,body.export-mode .pz-hint{display:none}
+.sc-puzzle{width:112px!important}.sc-puzzle.placed{width:96px!important}
+.pz-l{font-size:16px!important}.placed .pz-l{font-size:14px!important}
+.pz-hint{left:auto!important;right:110px;bottom:auto!important;transform:none!important;font-size:16px!important}
+.sc-compass.matrix{left:110px!important;right:auto!important;top:150px!important;bottom:auto!important;width:140px!important}
+
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -1074,6 +1121,7 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
   const r=document.createElement('i');r.className='fx-ring';r.style.left=x+'px';r.style.top=y+'px';body.append(r);setTimeout(()=>r.remove(),750);
  }
  window.deckBurst=burst;
+ window.deckTrail=(x,y)=>{if(!motionOn())return;bursts.push({x:x*dpr,y:y*dpr,vx:(Math.random()-.5)*.6*dpr,vy:-(Math.random()*.8+.2)*dpr,r:(Math.random()*1.2+.5)*dpr,life:.75,c:'243,210,143'})};
  size();addEventListener('resize',size);if(!coarse)requestAnimationFrame(frame);else requestAnimationFrame(frame);
 
  /* ---------- global pointer light ---------- */
@@ -1317,4 +1365,143 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  let seen=false;try{seen=sessionStorage.getItem('fowler-intro')==='1'}catch(_){}
  if(!reduce&&!seen&&!/#slide=(?!1$)/.test(location.hash))play();
 })();
-</script></body></html>
+
+/* Scenes: interactive props (compass, puzzle, sprout, book) and global motion extras. */
+(()=>{
+ const body=document.body;
+ if(body.classList.contains('export-mode')||new URLSearchParams(location.search).has('export'))return;
+ const stage=document.getElementById('stage');
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const coarse=matchMedia('(pointer: coarse)').matches;
+ const motionOn=()=>!reduce&&!body.classList.contains('motion-off');
+ const P='assets/chars/';
+ const burst=(x,y,n)=>window.deckBurst&&window.deckBurst(x,y,n);
+ const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+ const fa=n=>n.toLocaleString('fa-IR');
+ const scale=()=>stage.getBoundingClientRect().width/1600;
+ let ptr={x:innerWidth/2,y:innerHeight/2};
+ addEventListener('pointermove',e=>{ptr.x=e.clientX;ptr.y=e.clientY},{passive:true});
+ function prop(src,cls,hint){
+  const w=el('div','sprop '+cls);const i=new Image();i.src=P+src;i.alt='';i.draggable=false;i.onerror=()=>w.remove();w.append(i);
+  if(hint)w.append(el('small','sc-hint',hint));
+  stage.append(w);return w;
+ }
+ const loops=[];
+ function loop(fn,host){let on=true;const f=t=>{if(!on||!host.isConnected)return;fn(t);requestAnimationFrame(f)};requestAnimationFrame(f);loops.push(()=>{on=false})}
+ function say(host,text,ms=3200){host.querySelector('.bubble')?.remove();const b=el('div','bubble',text);host.append(b);setTimeout(()=>b.remove(),ms)}
+
+ /* ---------- compass: the needle follows your attention ---------- */
+ const compassState={a:0,v:0};
+ function compass(mode){
+  const w=prop('k1.webp','sc-compass '+mode,mode==='matrix'?'قطب‌نما سمت انتخاب شما را نشان می‌دهد':'قطب‌نما را بچرخانید');
+  const img=w.querySelector('img');let hover=null;
+  stage.addEventListener('pointerover',e=>{hover=e.target.closest('.scenario')||hover},{passive:true});
+  stage.addEventListener('pointerout',e=>{if(e.target.closest('.scenario'))hover=null},{passive:true});
+  w.addEventListener('click',()=>{compassState.v+=48;burst(w.getBoundingClientRect().left+60,w.getBoundingClientRect().top+60,14);say(w,['راه را خودت پیدا می‌کنی؟','کدام سمت؟','قطب‌نما فقط راهنماست.'][Math.floor(Math.random()*3)])});
+  loop(()=>{
+   const r=w.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.52;
+   let tx=ptr.x,ty=ptr.y;
+   if(mode==='matrix'){const t=hover||stage.querySelector('.scenario[aria-pressed=true]');if(t){const b=t.getBoundingClientRect();tx=b.left+b.width/2;ty=b.top+b.height/2}}
+   const target=Math.atan2(ty-cy,tx-cx)*180/Math.PI+44;
+   const d=((target-compassState.a+540)%360)-180;
+   compassState.v+=d*.05;compassState.v*=.88;compassState.a+=compassState.v;
+   img.style.transform='rotate('+compassState.a.toFixed(2)+'deg)';
+  },w);
+ }
+
+ /* ---------- puzzle: bring the three ways of making meaning together ---------- */
+ function puzzle(){
+  const cards=[...stage.querySelectorAll('.concept-card')];if(cards.length<3)return;
+  const defs=[['استدلال',''],['تعلق','hue-rotate(205deg) saturate(1.25)'],['نماد و تجربه','hue-rotate(235deg) brightness(1.18) saturate(1.1)']];
+  let done=0;
+  const hint=el('div','pz-hint','قطعه‌ها را روی کارت مناسب بکشید ✦');stage.append(hint);
+  const sr=stage.getBoundingClientRect(),ss=scale(),note=stage.querySelector('.concept-note'),foot=stage.querySelector('.slide-foot');
+  const gapTop=note?(note.getBoundingClientRect().bottom-sr.top)/ss:700,gapBot=foot?(foot.getBoundingClientRect().top-sr.top)/ss:830;
+  const rowY=Math.max(gapTop+4,Math.min(gapBot-84,(gapTop+gapBot)/2-38));hint.style.top=(rowY+22)+'px';
+  defs.forEach(([label,filter],i)=>{
+   const w=el('div','sprop sc-puzzle');const im=new Image();im.src=P+'k2.webp';im.alt='';im.draggable=false;im.style.filter=filter+' drop-shadow(0 16px 14px #0f3a3166)';w.append(im,el('span','pz-l',label));
+   const home={x:140+i*190,y:rowY};w.style.left=home.x+'px';w.style.top=home.y+'px';w.style.setProperty('--i',i);stage.append(w);
+   let drag=null;
+   w.addEventListener('pointerdown',e=>{if(w.classList.contains('placed'))return;w.setPointerCapture(e.pointerId);const s=scale(),r=stage.getBoundingClientRect();drag={dx:(e.clientX-r.left)/s-parseFloat(w.style.left),dy:(e.clientY-r.top)/s-parseFloat(w.style.top)};w.classList.add('dragging');w.style.transition='none'});
+   w.addEventListener('pointermove',e=>{if(!drag)return;const s=scale(),r=stage.getBoundingClientRect();w.style.left=((e.clientX-r.left)/s-drag.dx)+'px';w.style.top=((e.clientY-r.top)/s-drag.dy)+'px'});
+   w.addEventListener('pointerup',e=>{
+    if(!drag)return;drag=null;w.classList.remove('dragging');w.style.transition='';
+    const target=cards.find(c=>c.querySelector('strong')?.textContent.includes(label));
+    const b=target.getBoundingClientRect(),pr=w.getBoundingClientRect(),px=pr.left+pr.width/2,py=pr.top+pr.height/2;
+    if(px>b.left&&px<b.right&&py>b.top&&py<b.bottom){
+     const s=scale(),r=stage.getBoundingClientRect();
+     w.style.left=((b.left-r.left)/s+16)+'px';w.style.top=((b.top-r.top)/s+12)+'px';
+     w.classList.add('placed');target.classList.add('linked');burst(px,py,26);done++;
+     if(done===3){hint.textContent='کنار هم قرار گرفتند: یک فرد، چند شیوهٔ معنا دادن ✦';hint.classList.add('win');[0,250,500].forEach(t=>setTimeout(()=>burst(innerWidth*(.3+Math.random()*.4),innerHeight*(.3+Math.random()*.3),30),t))}
+    }else{w.style.left=home.x+'px';w.style.top=home.y+'px';w.classList.add('shake');setTimeout(()=>w.classList.remove('shake'),500)}
+   });
+  });
+ }
+
+ /* ---------- sprout: water it and it grows step by step ---------- */
+ function sprout(){
+  const w=prop('k3.webp','sc-sprout','برای آبیاری کلیک کنید 💧');
+  const img=w.querySelector('img');const dots=el('div','sp-dots');for(let i=0;i<5;i++)dots.append(el('i'));w.append(dots);
+  let level=0;
+  const msgs=['ایمان هم کم‌کم رشد می‌کند.','هر پرسش یک قطره آب است.','ریشه‌ها عمیق‌تر می‌شوند.','یک برگ تازه!','نزدیک است…','شکوفا شد! رشد، تدریجی است.'];
+  function water(){
+   level=Math.min(5,level+1);
+   img.style.transform='scale('+(1+level*.075)+')';img.classList.remove('wig');void img.offsetWidth;img.classList.add('wig');
+   [...dots.children].forEach((d,i)=>d.classList.toggle('on',i<level));
+   for(let k=0;k<5;k++){const d=el('i','drop');d.style.left=(30+k*10+Math.random()*8)+'%';d.style.animationDelay=(k*80)+'ms';w.append(d);setTimeout(()=>d.remove(),1100)}
+   const r=img.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.3,level===5?40:10);
+   say(w,msgs[level]);
+   if(level===5)setTimeout(()=>{if(!w.isConnected)return;level=0;img.style.transform='';[...dots.children].forEach(d=>d.classList.remove('on'))},3600);
+  }
+  w.addEventListener('click',water);
+ }
+
+ /* ---------- book: words rise from the pages ---------- */
+ const WORDS=['ایمان','معنا','پرسش','اعتماد','امید','گفت‌وگو','تأمل','رشد','همدلی'];
+ function book(){
+  const w=prop('k4.webp','sc-book','کتاب را لمس کنید');
+  const img=w.querySelector('img');
+  function emit(n=1){for(let i=0;i<n;i++){const s=el('span','word',WORDS[Math.floor(Math.random()*WORDS.length)]);s.style.setProperty('--dx',((Math.random()-.5)*220)+'px');s.style.setProperty('--r',((Math.random()-.5)*30)+'deg');s.style.setProperty('--s',(22+Math.random()*16)+'px');s.style.left=(30+Math.random()*40)+'%';w.append(s);setTimeout(()=>s.remove(),3100)}}
+  w.addEventListener('click',()=>{emit(6);const r=w.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.35,20)});
+  let last=0;
+  loop(t=>{
+   const r=w.getBoundingClientRect(),dx=(ptr.x-(r.left+r.width/2))/innerWidth,dy=(ptr.y-(r.top+r.height/2))/innerHeight;
+   img.style.transform='rotateY('+(dx*-26).toFixed(1)+'deg) rotateX('+(dy*20).toFixed(1)+'deg)';
+   if(motionOn()&&t-last>2300){last=t;emit(1)}
+  },w);
+ }
+
+ /* ---------- last slide: celebration ---------- */
+ function confetti(){let n=0;const id=setInterval(()=>{if(++n>9||!motionOn()){clearInterval(id);return}burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.2+Math.random()*.4),22)},260);loops.push(()=>clearInterval(id))}
+
+ function mount(index){
+  loops.splice(0).forEach(f=>f());
+  const n=DECK.slides.length;
+  if(index===18)puzzle();
+  else if(index===19)compass('matrix');
+  else if([1,13,15].includes(index))compass('free');
+  if([11,17].includes(index))sprout();
+  if([3,22].includes(index))book();
+  if(index===n-1)setTimeout(confetti,1200);
+ }
+ addEventListener('deck:slide',e=>mount(e.detail.index));
+ if(typeof window.__currentSlide==='number')mount(window.__currentSlide);
+
+ /* ---------- global: sparkle trail, slide tilt, magnetic buttons ---------- */
+ const main=document.getElementById('main'),vp=document.querySelector('.deck-viewport');
+ if(main&&vp&&!coarse){
+  main.style.perspective='1800px';vp.style.transition='transform .5s cubic-bezier(.2,.8,.2,1)';vp.style.willChange='transform';
+  let lt=0;
+  addEventListener('pointermove',e=>{
+   if(!motionOn())return;
+   const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
+   vp.style.transform='rotateY('+(x*-2.2).toFixed(2)+'deg) rotateX('+(y*1.6).toFixed(2)+'deg)';
+   const now=performance.now();if(now-lt>45){lt=now;window.deckTrail&&window.deckTrail(e.clientX,e.clientY)}
+   document.querySelectorAll('.navigation button,.top-actions button').forEach(b=>{
+    const r=b.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy);
+    if(d<90){b.style.translate=(dx*.18).toFixed(1)+'px '+(dy*.22).toFixed(1)+'px'}else if(b.style.translate)b.style.translate=''
+   });
+  },{passive:true});
+  addEventListener('pointerleave',()=>{vp.style.transform=''});
+ }
+})();</script></body></html>
