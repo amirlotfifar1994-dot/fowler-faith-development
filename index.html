@@ -348,6 +348,51 @@ body.export-mode::before,body.export-mode::after,body.export-mode #fx,body.expor
 @media print{body::before,body::after,#fx,#fx-glow{display:none!important}.slide h2,.slide.cover h1{-webkit-text-fill-color:currentColor;background:none}}
 
 body.export-mode .slide:not(.cover)::before{animation:none!important;height:32px!important}
+
+/* ---------- warm palette, matched to the character art ---------- */
+:root{--terra:#c0603f;--teal:#2f6b5e;--sand:#f3e6cf}
+html{background:#08262a}
+body::before{background:radial-gradient(circle,#2f8a7a70,transparent 66%)}
+body::after{background:radial-gradient(circle,#c0603f40,transparent 66%)}
+.slide{background:radial-gradient(1200px 700px at 100% 0%,#fffaf0 0%,#fbf3e3 55%,#f4e8d2 100%)!important}
+#progress{background:linear-gradient(270deg,#e8c27a,#c0603f 60%,#2fd0a0)!important}
+.text-card:not(.hook-card):nth-child(2n){background:linear-gradient(145deg,#fbeedc,#f6e3cb)!important;border-color:#ecd5b3!important}
+.text-card:not(.hook-card):nth-child(3n){background:linear-gradient(145deg,#e0eee8,#d6e8e0)!important}
+.text-card .card-index{background:linear-gradient(135deg,#c0603f,#e8a070)!important;color:#fff!important;box-shadow:0 6px 14px -6px #c0603f}
+.map-card b,.big-stage{background-image:linear-gradient(135deg,#c0603f,#e8c27a)!important}
+.fx-ring{border-color:#c0603f}
+
+/* ---------- characters ---------- */
+.char{position:absolute;margin:0;z-index:1;pointer-events:none;display:flex;align-items:flex-end;justify-content:center}
+.char img{display:block;width:auto;height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 22px #0f3a3150);animation:bob 6.5s ease-in-out infinite;translate:calc(var(--px,0)*-22px) calc(var(--py,0)*-12px);transition:translate .35s cubic-bezier(.2,.8,.2,1)}
+.char::before{content:'';position:absolute;bottom:-6px;left:10%;right:10%;height:26px;border-radius:50%;background:radial-gradient(ellipse,#0f3a3155,transparent 70%);animation:shadowPulse 6.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-14px) rotate(.6deg)}}
+@keyframes shadowPulse{50%{transform:scale(.86);opacity:.7}}
+#stage .char-float{left:70px;bottom:92px;height:330px}
+#stage .char-float.c-c7{height:250px;width:380px}
+#stage .char-float.c-c3{height:330px}
+#stage .char-float::after{content:'';position:absolute;z-index:-1;left:50%;top:55%;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;background:radial-gradient(circle,#e8c27a55,#c0603f22 55%,transparent 70%);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.15);opacity:.7}}
+#stage .hook-card{z-index:3}
+.cover>.char.char-cover{left:6%;bottom:60px;height:700px;z-index:1}
+.cover>.char.char-cover img{filter:drop-shadow(0 30px 30px #000a)}
+.cover>.char.char-cover::before{background:radial-gradient(ellipse,#000a,transparent 70%)}
+
+/* a character in place of the scene photo */
+#stage.char-slide{background:radial-gradient(1200px 700px at 100% 0%,#fffaf0,#f7ead3 60%,#f0dfc2)!important;color:var(--ink)}
+#stage.char-slide .visual-panel.char-panel{position:relative;overflow:visible;align-self:stretch;justify-content:flex-end}
+#stage.char-slide .char-panel::before{content:'';position:absolute;left:50%;top:50%;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:50%;background:radial-gradient(circle,#e8c27a66,#c0603f26 55%,transparent 72%);animation:breathe 7s ease-in-out infinite}
+#stage.char-slide .char-panel::after{content:'';position:absolute;left:50%;top:50%;width:380px;height:380px;margin:-190px 0 0 -190px;border-radius:50%;border:2px dashed #b8873b66;animation:spin 60s linear infinite}
+#stage.char-slide .char-panel .image-button{position:relative;z-index:1;background:none;border:0;box-shadow:none;overflow:visible;height:520px;width:100%}
+#stage.char-slide .char-img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 26px 24px #0f3a3150);animation:bob 6.5s ease-in-out infinite;translate:calc(var(--px,0)*-22px) calc(var(--py,0)*-12px);transition:translate .35s}
+#stage.char-slide .visual-panel:hover img{transform:none}
+#stage.char-slide .char-panel figcaption{position:relative;z-index:1;text-align:center;font-size:13px;color:var(--muted)}
+#stage.char-slide .text-card,#stage.char-slide .hook-card{max-width:none}
+@media(prefers-reduced-motion:reduce){.char img,.char::before,.char::after,.char-panel::before,.char-panel::after,.char-img{animation:none!important}}
+body.motion-off .char img,body.motion-off .char::before,body.motion-off .char-img{animation:none!important}
+body.export-mode .char{display:none}
+#stage.char-slide .char-img,#stage .char img{background:none!important;border:0!important;border-radius:0!important}
+#stage.cover>.char.char-cover{position:absolute!important;width:auto;left:5%;bottom:56px;height:640px}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -805,9 +850,40 @@ document.fonts.ready.then(()=>{resize();window.__deckReady=true});
  document.querySelector('.navigation')?.addEventListener('pointerdown',e=>{if(e.target.closest('button:not(:disabled)'))burst(e.clientX,e.clientY,12)});
 
  /* ---------- decorate + animate each rendered slide ---------- */
+ const CHARS={0:'c1',1:'c10',3:'c3',4:'c8',5:'c5',6:'c2',7:'c7',8:'c4',9:'c3',10:'c6',11:'c7',12:'c10',13:'c4',14:'c10',15:'c7',16:'c3',17:'c4',20:'c1',22:'c1'};
+ function charify(index){
+  const id=CHARS[index],slide=DECK.slides[index];
+  if(!id||!slide)return;
+  const url='assets/chars/'+id+'.webp';
+  const panel=stageEl.querySelector('.visual-panel');
+  if(panel&&slide.visual&&slide.visual!=='james-fowler-emory'){
+   stageEl.classList.remove('immersive-slide','image-only');
+   stageEl.querySelector('.immersive-toggle')?.remove();
+   stageEl.classList.add('char-slide');
+   panel.classList.add('char-panel');
+   const img=panel.querySelector('img'),btn=panel.querySelector('.image-button');
+   if(img){img.src=url;img.alt='شخصیت تصویری همراه این بخش';img.className='char-img c-'+id}
+   if(btn)btn.dataset.image=url;
+   const cap=panel.querySelector('figcaption');if(cap)cap.textContent='تصویرسازی شخصیت‌ها';
+   return;
+  }
+  if(slide.type==='cover'||slide.type==='content'&&!slide.visual){
+   const f=document.createElement('figure');
+   f.className='char '+(slide.type==='cover'?'char-cover':'char-float')+' c-'+id;
+   f.setAttribute('aria-hidden','true');
+   const im=new Image();im.src=url;im.alt='';im.onerror=()=>f.remove();
+   f.append(im);stageEl.append(f);
+  }
+ }
+ stageEl.addEventListener('pointermove',e=>{
+  const r=stageEl.getBoundingClientRect();
+  stageEl.style.setProperty('--px',((e.clientX-r.left)/r.width-.5).toFixed(3));
+  stageEl.style.setProperty('--py',((e.clientY-r.top)/r.height-.5).toFixed(3));
+ });
  let last=-1;
  const SEL='.text-card:not(.english):not(.hook-card), .map-card, .concept-card, .scenario, .stage-tab';
  function decorate(index){
+  charify(index);
   stageEl.querySelectorAll(SEL).forEach(el=>el.classList.add('fx-card'));
   const entering=index!==last;
   if(entering&&motionOn()){
