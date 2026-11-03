@@ -197,6 +197,16 @@ body:not(.export-mode) #stage.immersive-slide .hook-card {
  background:#081a24d9; backdrop-filter:blur(8px);
 }
  #stage .story-back { margin-inline-start:10px; background:transparent; color:inherit; }
+
+#stage .story-meter {
+ display:block; width:100%; height:9px; margin-block-start:16px;
+ accent-color:#24bfa7; border:0; border-radius:99px; overflow:hidden;
+}
+#stage .story-meter::-webkit-progress-bar { background:#789c994d; }
+#stage .story-meter::-webkit-progress-value { background:#24bfa7; }
+@media (prefers-reduced-motion:no-preference) {
+ #stage .story-meter::-webkit-progress-value { transition:width .24s ease; }
+}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
@@ -351,10 +361,15 @@ function renderSlide(index,updateHash=true){
    back.textContent = 'بخش قبل';
    const status = document.createElement('span');
    status.className = 'story-status';
+   const meter = document.createElement('progress');
+   meter.className = 'story-meter';
+   meter.max = parts.length;
+   meter.setAttribute('aria-label', 'پیشرفت متن این اسلاید');
    passage.setAttribute('aria-live', 'polite');
    let step = 0;
    function showStep() {
     back.disabled = step === 0;
+    meter.value = step + 1;
     status.textContent = fa(step + 1) + ' / ' + fa(parts.length);
     advance.textContent = step === parts.length - 1 ? 'بازگشت به پرسش' : 'ادامهٔ متن';
    }
@@ -374,7 +389,7 @@ function renderSlide(index,updateHash=true){
    hook.onclick = event => {
     if (!event.target.closest('button,a') && !String(getSelection())) nextPassage();
    };
-   hook.append(advance, back, status);
+   hook.append(advance, back, status, meter);
    showStep();
   }
  }
