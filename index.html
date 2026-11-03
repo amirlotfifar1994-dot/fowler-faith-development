@@ -162,6 +162,11 @@ body:not(.export-mode) #main { height:calc(100dvh - 6px); }
  body:not(.export-mode) #main { padding-bottom:58px; }
  .deck-viewport > .navigation { bottom:-48px; }
 }
+
+#stage .hook-card { padding:32px 40px; border-inline-start:5px solid #36bbab; }
+#stage .hook-card p { font-size:clamp(34px,4vw,48px); font-weight:900; line-height:1.65; }
+.interactive-hook,.cover-hook { font-size:27px; font-weight:800; margin:6px 0 14px; }
+#detail-dialog { width:min(870px,94vw); max-height:86dvh; }
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div><div class="navigation"><button id="next" class="primary" aria-label="اسلاید بعدی">بعدی</button><span id="counter" role="status" aria-live="polite"></span><button id="previous" aria-label="اسلاید قبلی">قبلی</button></div></div></main>
