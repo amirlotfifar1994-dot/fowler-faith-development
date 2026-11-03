@@ -117,6 +117,35 @@ body.projector-mode { background: #e5edf5; color: #101d31; }
  to { opacity: 1; transform: translateY(0); }
 }
 body.export-mode #stage :is(.section-cutout,h2,.cover-copy) { animation: none; }
+
+body:not(.export-mode) .immersive-slide { color:#f4ffff; background:#091d23; }
+body:not(.export-mode) .immersive-slide .media-layout { display:block; position:static; }
+body:not(.export-mode) .immersive-slide .visual-panel {
+ position:absolute; inset:0; z-index:-2; margin:0; width:100%; height:100%; border:0; border-radius:0;
+}
+body:not(.export-mode) .immersive-slide .visual-panel .image-button { width:100%; height:100%; padding:0; }
+body:not(.export-mode) .immersive-slide .visual-panel img { width:100%; height:100%; max-height:none; object-fit:cover; }
+body:not(.export-mode) .immersive-slide::before {
+ content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+ background:linear-gradient(270deg,#041319f5 0%,#041319d9 42%,#04131952 75%),linear-gradient(0deg,#041319 0%,transparent 30%);
+ transition:opacity .25s ease;
+}
+body:not(.export-mode) .immersive-slide :is(.slide-top,.slide-foot,.slide-number,.section-label) { color:#d6fafa; }
+body:not(.export-mode) .immersive-slide h2 { color:#f2ffff; text-shadow:0 0 20px #29e9d14d; }
+body:not(.export-mode) .immersive-slide .text-card {
+ max-width:850px; color:#f4ffff; background:#091c25eb; border:1px solid #52efd29c;
+ box-shadow:0 0 20px #27eacc20;
+}
+body:not(.export-mode) .immersive-slide .text-card :is(p,li) { color:#e5faf8; }
+body:not(.export-mode) .immersive-slide .text-card strong { color:#a3ffe8; background:#175348; }
+.immersive-toggle { color:#a3ffe8; background:#102832; border-color:#5aead1; font-weight:800; }
+.export-mode .immersive-toggle { display:none; }
+body:not(.export-mode) .immersive-slide.image-only .text-card { visibility:hidden; }
+body:not(.export-mode) .immersive-slide.image-only::before { opacity:.35; }
+@media (hover:hover) and (pointer:fine) {
+ body:not(.export-mode) .immersive-slide.image-only:has(.immersive-toggle:hover) .text-card { visibility:visible; }
+ body:not(.export-mode) .immersive-slide.image-only:has(.immersive-toggle:hover)::before { opacity:1; }
+}
 </style></head>
 <body><a class="skip" href="#stage">رفتن به اسلاید</a><header class="topbar"><a href="#slide=1" class="brand"><span class="brand-symbol">ف</span><span>تحول ایمان<small>روان‌شناسی تحولی دینی</small></span></a><div class="top-actions"><button id="overview-button" aria-controls="overview" aria-expanded="false">فهرست اسلایدها</button><button id="reader-button">متن کامل</button><button id="motion-button" aria-pressed="true">حرکت روشن</button><button id="fullscreen-button" title="تمام‌صفحه (F)">تمام‌صفحه</button><button id="help-button" aria-label="راهنمای ارائه">؟</button></div></header>
 <main id="main"><div class="deck-viewport"><div id="stage" class="slide" role="region" aria-roledescription="اسلاید" aria-label="اسلاید ارائه" tabindex="-1"></div></div></main>
@@ -241,7 +270,20 @@ function resize(){
 function renderSlide(index,updateHash=true){
  const entering=Number(index)!==current||!stage.firstElementChild;
  current=Math.max(0,Math.min(slides.length-1,Number(index)||0));const slide=slides[current];
- stage.className='slide '+(slide.type==='cover'?'cover':'')+(entering?' slide-enter':'');stage.innerHTML=referenceMarkup(renderHTML(slide,current,document.body.classList.contains('export-mode')));
+ stage.className='slide '+(slide.type==='cover'?'cover':'')+(entering?' slide-enter':'')+(slide.visual&&slide.visual!=='james-fowler-emory'?' immersive-slide':'');stage.innerHTML=referenceMarkup(renderHTML(slide,current,document.body.classList.contains('export-mode')));
+ if(stage.classList.contains('immersive-slide')){
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'immersive-toggle';
+  toggle.textContent = 'نمای تصویر';
+  toggle.setAttribute('aria-pressed','false');
+  toggle.onclick = () => {
+   const active = stage.classList.toggle('image-only');
+   toggle.setAttribute('aria-pressed',String(active));
+   toggle.textContent = active ? 'نمای متن' : 'نمای تصویر';
+  };
+  stage.querySelector('.slide-top').append(toggle);
+ }
  stage.setAttribute('aria-label',fa(current+1)+' از '+fa(slides.length)+'، '+slide.title);
  document.getElementById('counter').textContent=fa(current+1)+' / '+fa(slides.length);
  document.getElementById('chapter').textContent=slide.group;
