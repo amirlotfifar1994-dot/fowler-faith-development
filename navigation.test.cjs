@@ -150,3 +150,20 @@ test('the complete presentation script compiles before navigation is tested in i
 test('the public presentation contains no links to private machine paths', () => {
   assert.doesNotMatch(source, /\b[A-Za-z]:[/\\]Users[/\\]|file:\/\//i);
 });
+
+test('every slide has a distinct supplement with an example, a limit and resolvable citations', () => {
+  const deck = JSON.parse(source.split('const DECK=')[1].split(';const TERM_NOTES')[0]);
+  const data = source.slice(source.indexOf('const NOTE_SOURCES='), source.indexOf('function emphasizeMarkup('));
+  const { notes, refs } = vm.runInNewContext(data + '\n({notes:SLIDE_NOTES,refs:NOTE_SOURCES})');
+  assert.deepEqual(Object.keys(notes).sort(), deck.slides.map(slide => slide.title).sort());
+  assert.equal(new Set(Object.values(notes).map(note => note.example)).size, deck.slides.length);
+  for (const [title, note] of Object.entries(notes)) {
+    for (const field of ['take', 'explain', 'example', 'question', 'limit']) {
+      assert.ok(note[field]?.trim(), title + ': ' + field);
+    }
+    for (const id of note.refs) {
+      assert.ok(refs[id]?.[0], title + ': source ' + id);
+      if (refs[id][1]) assert.equal(new URL(refs[id][1]).protocol, 'https:');
+    }
+  }
+});
