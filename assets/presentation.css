@@ -371,3 +371,12 @@ dialog::backdrop{backdrop-filter:none;background:#061f1cc7}
  #stage.slide-enter>.reading-scene,#stage.slide-enter>.discussion-scene{animation:none!important}
 }
 body.motion-off #stage.slide-enter>.reading-scene,body.motion-off #stage.slide-enter>.discussion-scene{animation:none!important}
+
+#detail-dialog .slide-supplement .lead{grid-column:1/-1}
+#detail-dialog .slide-supplement .supplement-label{margin:0;color:#375d49;font-size:15px;font-weight:700}
+#detail-dialog .slide-supplement .supplement-card p{margin:8px 0 0}
+#detail-dialog .supplement-sources h3{margin:0;font-size:15px}
+#detail-dialog .supplement-sources ul{padding-inline-start:20px;margin:8px 0 0}
+#detail-dialog .supplement-sources li+li{margin-top:5px}
+#detail-dialog .supplement-sources a{color:#225b47}
+#stage.cover .slide-foot .notes-button{background:#244c40;color:#faf4e7;border-color:#537467}
