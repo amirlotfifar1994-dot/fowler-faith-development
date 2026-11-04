@@ -128,3 +128,25 @@ test('right arrow advances and left arrow returns to the previous slide', () => 
   key('ArrowRight');assert.equal(context.current,4);
   key('ArrowLeft');assert.equal(context.current,3);
 });
+
+test('reading retains English terminology as a label and advances directly to the explanatory text', () => {
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(source.slice(source.indexOf('function readingContent('), source.indexOf('function renderSlide(')), context);
+  const content = context.readingContent({hook:'پرسش', blocks:[
+    {type:'text', text:'Mythic–Literal Faith', html:'Mythic–Literal Faith'},
+    {type:'text', text:'شرح مرحله', html:'<strong>شرح مرحله</strong>'},
+    {type:'text', text:'نمونهٔ آموزشی', html:'نمونهٔ آموزشی'},
+  ]});
+  assert.equal(content.term, 'Mythic–Literal Faith');
+  assert.deepEqual(Array.from(content.parts), ['پرسش', '<strong>شرح مرحله</strong>', 'نمونهٔ آموزشی']);
+});
+
+test('the complete presentation script compiles before navigation is tested in isolation', () => {
+  const script = source.match(/<script>([\s\S]*?)<\/script>/)[1];
+  assert.doesNotThrow(() => new vm.Script(script));
+});
+
+test('the public presentation contains no links to private machine paths', () => {
+  assert.doesNotMatch(source, /\b[A-Za-z]:[/\\]Users[/\\]|file:\/\//i);
+});
